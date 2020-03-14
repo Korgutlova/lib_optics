@@ -1,0 +1,84 @@
+name of material,refractive index
+vacuum,1
+air at stp,1.000277
+air,1.000293
+carbon dioxide,1.001
+helium,1.000036
+hydrogen,1.000132
+arsenic trisulfide and sulfur in methylene iodide,1.9
+carbon disulfide,1.628
+benzene,1.501
+carbon tetrachloride,1.461
+silicone oil,	1.398
+kerosene,1.39
+ethanol,1.361
+ethyl alcohol,1.361
+acetone,1.36
+water,1.333
+10% glucose solution in water	,1.3477
+20% glucose solution in water	,1.3635
+60% glucose solution in water	,1.4394
+silicon carbide,2.65
+moissanite,2.65
+titanium dioxide,2.614
+diamond,2.417
+strontium titanate,2.41
+tantalum pentoxide,	2.15
+amber,1.55
+sodium chloride,1.544
+fused silica,1.458
+pure form of glass,1.458
+fused quartz,1.458
+liquid helium	,1.025
+perfluorohexane,1.251
+fluorinert FC-72,1.251
+water ice,1.31
+tfe/pdd,1.315
+teflon af,1.315
+cryolite,1.338
+cytop,1.34
+polytetrafluoroethylene,1.36
+teflon,1.36
+sugar solution 25%,	1.3723
+cornea,1.373
+lens,1.396
+liver,1.369
+intestinal mucosa,1.332
+ethylene tetrafluoroethylene,1.403
+etfe,1.403
+sylgard,1.4118
+polydimethylsiloxane,1.4118
+sugar solution 50%,	1.4200
+polylactic acid	,1.46
+pyrex,1.470
+borosilicate glass,1.470
+vegetable oil,1.47
+glycerol,1.4729
+sugar solution 75%	,1.4774
+poly,1.4896
+methyl methacrylate,1.4896
+pmma,1.4896
+halite,1.516
+rock salt,1.516
+plate Glass,1.52
+window glass,1.52
+crown glass (pure),1.54
+petg,1.57
+polyethylene terephthalate,	1.5750
+pet,1.5750
+polycarbonate,1.60
+crown glass (impure),1.620
+flint glass (pure),1.61
+bromine,1.661
+flint glass (impure),1.724
+sapphire,1.770
+boron nitride,2.07
+cubic zirconia,2.16
+potassium niobate,2.28
+knbo3,2.28
+zinc oxide,2.4
+cinnabar (mercury sulfide),3.02
+silicon,3.45
+gallium(III) phosphide,3.5
+gallium(III) arsenide,3.927
+germanium,4.03
