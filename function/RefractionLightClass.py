@@ -45,7 +45,11 @@ class RefractionLightClass:
         
         """
         # TODO try catch
-        return math.sin(math.radians(angle_incidence)) * medium_one / medium_two
+
+        # синус (для вода/воздух 0,67, всё правильно)
+        result_sin = math.sin(math.radians(angle_incidence)) * medium_one / medium_two
+        # дальше надо взять арксинус и перевести в градусы
+        return math.degrees(math.asin(result_sin))
 
     def get_refractive_index(self, media):
         # TODO check keyerror
