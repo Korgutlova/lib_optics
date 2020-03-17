@@ -2,6 +2,7 @@ import math
 
 import pandas as pd
 import numpy as np
+from util import errors
 
 
 class RefractionLightClass:
@@ -29,7 +30,7 @@ class RefractionLightClass:
     """
 
     # translate please
-    def get_angle_refraction(self, angle_incidence, medium_one, medium_two):
+    def get_angle_refraction(self, angle_incidence: float, medium_one: str, medium_two: str) -> float:
         if type(medium_one) == str and type(medium_one) == str:
             medium_one = self.get_refractive_index(medium_one)
             medium_two = self.get_refractive_index(medium_two)
@@ -51,6 +52,13 @@ class RefractionLightClass:
         # дальше надо взять арксинус и перевести в градусы
         return math.degrees(math.asin(result_sin))
 
-    def get_refractive_index(self, media):
-        # TODO check keyerror
-        return self.dictionary[media.lower()]
+    def get_refractive_index(self, media: str) -> float:
+        index = self.dictionary.get(media.lower(), -1)
+        if index != -1:
+            return index
+        else:
+            raise errors.RefractiveIndexNotFound(media)
+
+    def set_refractive_index(self, media: str, value: float):
+        #TODO save data to csv file and to the "dictionary"
+        pass
