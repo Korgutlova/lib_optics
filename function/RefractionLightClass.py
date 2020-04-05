@@ -1,5 +1,5 @@
 import math
-
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from util import errors
@@ -29,20 +29,13 @@ class RefractionLightClass:
         Эта среда куда проходит луч, значение показателя преломления, или название среды
     """
 
-    # translate please
-    def get_angle_refraction(self, angle_incidence: float, medium_one: str, medium_two: str) -> float:
-        if type(medium_one) == str and type(medium_one) == str:
-            medium_one = self.get_refractive_index(medium_one)
-            medium_two = self.get_refractive_index(medium_two)
+    def get_angle_refraction(self, angle_incidence: float, medium_one, medium_two) -> float:
+        medium_one, medium_two = self.__validate_index_name(medium_one, medium_two)
         """
         
         sin(a)/sin(y) = n2 / n1
         
         http://ru.solverbook.com/spravochnik/zakony-fiziki/zakon-prelomleniya-sveta/
-        
-        [how get degrees in end?]
-        
-        I tried math.degrees(result) -> but this didn't match in the answers of the tasks
         
         """
         # TODO try catch
@@ -52,6 +45,26 @@ class RefractionLightClass:
         # дальше надо взять арксинус и перевести в градусы
         return math.degrees(math.asin(result_sin))
 
+    def __validate_index_name(self, medium_one, medium_two):
+        if type(medium_one) == str:
+            medium_one = self.get_refractive_index(medium_one)
+        if type(medium_two) == str:
+            medium_two = self.get_refractive_index(medium_two)
+        return medium_one, medium_two
+
+    def build_graph(self, angle_incidence: float, first_index, second_index):
+        first_index, second_index = self.__validate_index_name(first_index, second_index)
+        second_angle = self.get_angle_refraction(angle_incidence, first_index, second_index)
+        first_x = 2 * math.tan(math.radians(angle_incidence))
+        second_x = 2 * math.tan(math.radians(second_angle))
+        print(first_x)
+        plt.plot([-first_x, 0], [-2, 0], label=first_index if type(first_index) == str else "Начальная среда")
+        plt.plot([0, second_x], [0, 2], label=second_index if type(second_index) == str else "Конечная среда")
+        plt.axvline(x=0, color="black")
+        plt.xlim([-2, 2])
+        plt.ylim([-2, 2])
+        plt.show()
+
     def get_refractive_index(self, media: str) -> float:
         index = self.dictionary.get(media.lower(), -1)
         if index != -1:
@@ -60,5 +73,5 @@ class RefractionLightClass:
             raise errors.RefractiveIndexNotFound(media)
 
     def set_refractive_index(self, media: str, value: float):
-        #TODO save data to csv file and to the "dictionary"
+        # TODO save data to csv file and to the "dictionary"
         pass
