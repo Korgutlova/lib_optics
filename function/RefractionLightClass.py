@@ -42,6 +42,8 @@ class RefractionLightClass:
 
         # синус (для вода/воздух 0,67, всё правильно)
         result_sin = math.sin(math.radians(angle_incidence)) * medium_one / medium_two
+        if result_sin > 1:
+            result_sin = -math.sin(math.radians(angle_incidence))
         # дальше надо взять арксинус и перевести в градусы
         return math.degrees(math.asin(result_sin))
 
@@ -57,9 +59,9 @@ class RefractionLightClass:
         second_angle = self.get_angle_refraction(angle_incidence, first_index, second_index)
         first_x = 2 * math.tan(math.radians(angle_incidence))
         second_x = 2 * math.tan(math.radians(second_angle))
-        print(first_x)
-        plt.plot([-first_x, 0], [-2, 0], label=first_index if type(first_index) == str else "Начальная среда")
-        plt.plot([0, second_x], [0, 2], label=second_index if type(second_index) == str else "Конечная среда")
+        print(first_x, second_x)
+        plt.plot([-first_x, 0], [-2, 0])
+        plt.plot([0, second_x], [0, 2])
         plt.axvline(x=0, color="black")
         plt.xlim([-2, 2])
         plt.ylim([-2, 2])
