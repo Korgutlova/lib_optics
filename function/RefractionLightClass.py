@@ -55,11 +55,12 @@ class RefractionLightClass:
         return medium_one, medium_two
 
     def build_graph(self, angle_incidence: float, first_index, second_index):
+        plt.annotate(first_index if type(first_index) == str else "Начальная среда", xy=(-1.5, 0))
+        plt.annotate(second_index if type(second_index) == str else "Конечная среда", xy=(0.5, 0))
         first_index, second_index = self.__validate_index_name(first_index, second_index)
         second_angle = self.get_angle_refraction(angle_incidence, first_index, second_index)
         first_x = 2 * math.tan(math.radians(angle_incidence))
         second_x = 2 * math.tan(math.radians(second_angle))
-        print(first_x, second_x)
         plt.plot([-first_x, 0], [-2, 0])
         plt.plot([0, second_x], [0, 2])
         plt.axvline(x=0, color="black")

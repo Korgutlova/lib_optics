@@ -60,14 +60,17 @@ class OpticalBuilder:
             if self.check_not_none_for_f() else None
 
     # только действительных изображений
-    def display_graphic(self):
-        self.default_axis()
+    def display_graphic(self, virtual):
+        self.default_axis(virtual)
         self.build_object()
-        self.build_rays()
+        self.build_rays(virtual)
         plt.show()
 
-    def default_axis(self):
-        X = plt.plot([(-1) * self.dist_subject - 5, self.dist_image + 5], [0, 0], "black")
+    def default_axis(self, virtual):
+        if virtual:
+            X = plt.plot([(-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5], [0, 0], "black")
+        else:
+            X = plt.plot([(-1) * self.dist_subject - 5, self.dist_image + 5], [0, 0], "black")
         Y = plt.plot([0, 0], [self.height_subject + 1, (-1) * self.height_subject - 1], "black")
         plt.annotate("Линза", xy=(0, self.height_subject + 2))
         plt.axis('equal')
@@ -83,17 +86,29 @@ class OpticalBuilder:
         obj = plt.plot([(-1) * self.dist_subject, (-1) * self.dist_subject], [0, self.height_subject], "g")
         plt.annotate("Объект", xy=((-1) * self.dist_subject, 1))
 
-    def build_rays(self):
+    def build_rays(self, virtual=False):
         x1 = 0
         x2 = self.focal_length
         y1 = self.height_subject
         y2 = 0
         y3 = self.build_line_by_points(x1, x2, y1, y2, self.dist_image)
-        parallel_x = plt.plot([(-1) * self.dist_subject, x1, x2, self.dist_image],
-                              [self.height_subject, y1, y2, y3], "blue")
+        if virtual:
+            parallel_x = plt.plot([(-1) * self.dist_subject, x1, x2],
+                                  [self.height_subject, y1, y2], "blue")
+            parallel_x_image = plt.plot([x1, self.dist_image],
+                                        [y1, y3], "--b")
 
-        line_focus = plt.plot([(-1) * self.dist_subject, (-1) * self.focal_length, 0, self.dist_image],
-                              [self.height_subject, 0, y3, y3], "blue")
+            line_focus = plt.plot([0, (-1) * self.dist_subject],
+                                  [0, self.height_subject], "blue")
+
+            line_focus_image = plt.plot([(-1) * self.dist_subject, self.dist_image],
+                                        [self.height_subject, y3], "--b")
+        else:
+            parallel_x = plt.plot([(-1) * self.dist_subject, x1, x2, self.dist_image],
+                                  [self.height_subject, y1, y2, y3], "blue")
+
+            line_focus = plt.plot([(-1) * self.dist_subject, (-1) * self.focal_length, 0, self.dist_image],
+                                  [self.height_subject, 0, y3, y3], "blue")
 
         line_image = plt.plot([self.dist_image, self.dist_image], [0, y3], "--g")
         plt.annotate("Изображение", xy=(self.dist_image, 1))
@@ -116,12 +131,10 @@ class OpticalBuilder:
             print("Заполните два из параметра f, d, F")
             return
 
-        if self.dist_subject < self.focal_length:
-            print("Для этой функции расстояние объекта до линзы должно быть больше чем фокусное расстояние")
-            return
+        virtual = self.dist_subject < self.focal_length
 
         if self.height_subject is None:
             print("Введите высоту предмета")
             return
 
-        self.display_graphic()
+        self.display_graphic(virtual)
