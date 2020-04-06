@@ -3,7 +3,7 @@ from function.RefractionLightClass import RefractionLightClass
 
 if __name__ == "__main__":
     # r = RefractionLightClass()
-    # r.build_graph(42, "water", "air")
+    # r.build_graph(30, "water", "air")
 
-    x = OpticalBuilder(dist_subject=5, dist_image=10, height_subject=3)
+    x = OpticalBuilder(dist_subject=10, focal_length=5, height_subject=3, biconcave=True)
     x.execute()
