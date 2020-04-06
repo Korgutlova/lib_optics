@@ -64,8 +64,12 @@ class RefractionLightClass:
         plt.plot([-first_x, 0], [-2, 0])
         plt.plot([0, second_x], [0, 2])
         plt.axvline(x=0, color="black")
+        plt.axhline(y=0, color="black")
         plt.xlim([-2, 2])
         plt.ylim([-2, 2])
+        frame = plt.gca()
+        frame.axes.get_xaxis().set_ticks([])
+        frame.axes.get_yaxis().set_ticks([])
         plt.show()
 
     def get_refractive_index(self, media: str) -> float:

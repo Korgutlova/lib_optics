@@ -5,23 +5,23 @@ class OpticalBuilder:
 
     # http://fizmat.by/kursy/geom_optika/linzy
 
-    def __init__(self):
+    def __init__(self, dist_subject=None, dist_image=None, focal_length=None, lens_type=None, real_image=None, real_subject=None, height_subject=None, height_image=None):
         # d - distance from subject to lens - d
-        self.dist_subject = None
+        self.dist_subject = dist_subject
         # f - distance from the subject image to the lens  - f
-        self.dist_image = None
+        self.dist_image = dist_image
         # F - focal length F
-        self.focal_length = None
+        self.focal_length = focal_length
         # [+/-] -  scattering lens / collecting lens
-        self.lens_type = None
+        self.lens_type = lens_type
         # [+/-] - image is real
-        self.real_image = None
+        self.real_image = real_image
         # [+/-] - subject is real
-        self.real_subject = None
+        self.real_subject = real_subject
         # h - height of subject
-        self.height_subject = None
+        self.height_subject = height_subject
         # h' - height of image
-        self.height_image = None
+        self.height_image = height_image
 
     def __str__(self):
         return "F - %s\nf - %s\nd - %s" % (self.focal_length, self.dist_image, self.dist_subject)
@@ -68,7 +68,7 @@ class OpticalBuilder:
 
     def default_axis(self, virtual):
         if virtual:
-            X = plt.plot([(-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5], [0, 0], "black")
+            plt.plot([(-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5], [0, 0], "black")
         else:
             X = plt.plot([(-1) * self.dist_subject - 5, self.dist_image + 5], [0, 0], "black")
         Y = plt.plot([0, 0], [max(abs(self.height_subject), abs(self.height_image)) + 1,
