@@ -59,8 +59,8 @@ class OpticalBuilder:
         return self.focal_length * self.dist_subject / (self.dist_subject - self.focal_length) \
             if self.check_not_none_for_f() else None
 
-    # только действительных изображений
-    def display_graphic(self, virtual):
+    def __display_graphic(self, virtual):
+        self.height_image = self.__calculate_image_height(0, self.focal_length, self.height_subject, 0, self.dist_image)
         self.default_axis(virtual)
         self.build_object()
         self.build_rays(virtual)
@@ -71,7 +71,8 @@ class OpticalBuilder:
             X = plt.plot([(-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5], [0, 0], "black")
         else:
             X = plt.plot([(-1) * self.dist_subject - 5, self.dist_image + 5], [0, 0], "black")
-        Y = plt.plot([0, 0], [self.height_subject + 1, (-1) * self.height_subject - 1], "black")
+        Y = plt.plot([0, 0], [max(abs(self.height_subject), abs(self.height_image)) + 1,
+                              (-1) * max(abs(self.height_subject), abs(self.height_image)) - 1], "black")
         plt.annotate("Линза", xy=(0, self.height_subject + 2))
         plt.axis('equal')
         frame = plt.gca()
@@ -91,7 +92,7 @@ class OpticalBuilder:
         x2 = self.focal_length
         y1 = self.height_subject
         y2 = 0
-        y3 = self.build_line_by_points(x1, x2, y1, y2, self.dist_image)
+        y3 = self.height_image
         if virtual:
             parallel_x = plt.plot([(-1) * self.dist_subject, x1, x2],
                                   [self.height_subject, y1, y2], "blue")
@@ -113,7 +114,7 @@ class OpticalBuilder:
         line_image = plt.plot([self.dist_image, self.dist_image], [0, y3], "--g")
         plt.annotate("Изображение", xy=(self.dist_image, 1))
 
-    def build_line_by_points(self, x1, x2, y1, y2, x=None, y=None):
+    def __calculate_image_height(self, x1, x2, y1, y2, x=None, y=None):
         k = (y1 - y2) / (x1 - x2)
         b = y2 - k * x2
         if x is not None:
@@ -137,4 +138,4 @@ class OpticalBuilder:
             print("Введите высоту предмета")
             return
 
-        self.display_graphic(virtual)
+        self.__display_graphic(virtual)
