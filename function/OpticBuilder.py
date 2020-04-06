@@ -74,7 +74,8 @@ class OpticalBuilder:
 
     def __display_graphic(self, virtual):
         self.height_image = self.__calculate_image_height(0, self.focal_length, self.height_subject, 0, self.dist_image) \
-            if not self.biconcave else self.__calculate_image_height(0, (-1) * self.dist_subject, 0, self.height_subject,
+            if not self.biconcave else self.__calculate_image_height(0, (-1) * self.dist_subject, 0,
+                                                                     self.height_subject,
                                                                      (-1) * self.dist_image)
         self.default_axis(virtual)
         self.build_object()
@@ -135,14 +136,16 @@ class OpticalBuilder:
                 plt.xlim((-1) * self.dist_subject - 5, self.dist_image + 5)
         else:
             plt.plot([(-1) * self.dist_subject, x1, 3],  # parallel_x
-                     [self.height_subject, y1, self.__calculate_image_height((-1) * self.focal_length, (-1) * self.dist_image, 0, self.height_image, 3)], "blue")
-
+                     [self.height_subject, y1,
+                      self.__calculate_image_height((-1) * self.focal_length, (-1) * self.dist_image, 0,
+                                                    self.height_image, 3)], "blue")
 
             plt.plot([(-1) * self.focal_length, 0],
                      [0, self.height_subject], "--b")
 
             plt.plot([(-1) * self.dist_subject, 0, 3],  # line_focus
-                     [self.height_subject, 0, self.__calculate_image_height(0, (-1) * self.dist_subject, 0, self.height_subject, 3)], "blue")
+                     [self.height_subject, 0,
+                      self.__calculate_image_height(0, (-1) * self.dist_subject, 0, self.height_subject, 3)], "blue")
 
             plt.plot([(-1) * self.dist_image, (-1) * self.dist_image], [0, y3], "--g")  # line_image
             plt.annotate("Изображение", xy=((-1) * self.dist_image, 1))
