@@ -68,7 +68,7 @@ class OpticalBuilder:
 
     def default_axis(self, virtual):
         if virtual:
-            plt.plot([(-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5], [0, 0], "black")
+            X = plt.plot([(-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5], [0, 0], "black")
         else:
             X = plt.plot([(-1) * self.dist_subject - 5, self.dist_image + 5], [0, 0], "black")
         Y = plt.plot([0, 0], [max(abs(self.height_subject), abs(self.height_image)) + 1,
