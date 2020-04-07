@@ -55,12 +55,15 @@ class RefractionLightClass:
         return medium_one, medium_two
 
     def build_graph(self, angle_incidence: float, first_index, second_index):
-        plt.annotate(first_index if type(first_index) == str else "Начальная среда", xy=(-1.5, 0))
-        plt.annotate(second_index if type(second_index) == str else "Конечная среда", xy=(0.5, 0))
+        plt.annotate(first_index if type(first_index) == str else "Начальная среда", xy=(-1.5, 0.1))
+        plt.annotate(second_index if type(second_index) == str else "Конечная среда", xy=(0.5, 0.1))
         first_index, second_index = self.__validate_index_name(first_index, second_index)
         second_angle = self.get_angle_refraction(angle_incidence, first_index, second_index)
+        plt.annotate(angle_incidence, xy=(-0.6, -0.2))
+        plt.annotate(math.floor(second_angle), xy=(0.5, 0.3))
         first_x = 2 / math.tan(math.radians(angle_incidence))
         second_x = 2 / math.tan(math.radians(second_angle))
+        self.display_curve(-first_x, 0, -2, 0, 0, second_x, 0, 2)
         plt.plot([-first_x, 0], [-2, 0])
         plt.plot([0, second_x], [0, 2])
         plt.axvline(x=0, color="black")
@@ -82,3 +85,61 @@ class RefractionLightClass:
     def set_refractive_index(self, media: str, value: float):
         # TODO save data to csv file and to the "dictionary"
         pass
+
+    def get_koef(self, x1, x2, y1, y2):
+        k = (y1 - y2) / (x1 - x2)
+        b = y2 - k * x2
+        return k, b
+
+    # пересечение между прямой и окружностью
+    def get_discriminant(self, k, b, r):
+        D = math.sqrt(r * r * (k * k + 1) - b * b)
+        x1 = ((-1) * k * b - D) / (1 + k * k)
+        x2 = ((-1) * k * b + D) / (1 + k * k)
+        return x1, x2
+
+    def get_Y(self, x, k, b):
+        return x * k + b
+
+    def get_circle_coordinates(self, r):
+        theta = np.linspace(0, 2 * np.pi, 1000)
+
+        x = r * np.cos(theta)
+        y = r * np.sin(theta)
+
+        return x, y
+
+    def display_curve(self, x1, x2, y1, y2, x_1, x_2, y_1, y_2):
+        r = 0.5
+        x, y = self.get_circle_coordinates(r)
+
+        k, b = self.get_koef(x1, x2, y1, y2)
+        x1, x2 = self.get_discriminant(k, b, r)
+        x_point = x1 if x1 < 0 else x2
+        y_point = self.get_Y(x_point, k, b)
+
+        first_curve_x = []
+        first_curve_y = []
+        for elem1, elem2 in zip(x, y):
+            if np.sign(elem1) == np.sign(x_point) and np.sign(elem2) == np.sign(y_point) \
+                    and elem2 >= y_point and elem1 <= x_point:
+                first_curve_x.append(elem1)
+                first_curve_y.append(elem2)
+        print(first_curve_x, first_curve_y)
+
+        plt.plot(first_curve_x, first_curve_y, "black")
+
+        k, b = self.get_koef(x_1, x_2, y_1, y_2)
+        x1, x2 = self.get_discriminant(k, b, r)
+        x_point = x1 if x1 > 0 else x2
+        y_point = self.get_Y(x_point, k, b)
+
+        second_curve_x = []
+        second_curve_y = []
+        for elem1, elem2 in zip(x, y):
+            if np.sign(elem1) == np.sign(x_point) and np.sign(elem2) == np.sign(y_point) \
+                    and elem2 <= y_point and elem1 >= x_point:
+                second_curve_x.append(elem1)
+                second_curve_y.append(elem2)
+
+        plt.plot(second_curve_x, second_curve_y, "black")
