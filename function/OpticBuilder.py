@@ -13,7 +13,7 @@ class OpticalBuilder:
         self.dist_image = dist_image
         # F - focal length F
         self.focal_length = focal_length
-        # [+/-] -  scattering lens / collecting lens
+        # [+/-] - scattering lens / collecting lens
         self.biconcave = biconcave
         # [+/-] - image is real
         self.real_image = real_image
@@ -66,31 +66,63 @@ class OpticalBuilder:
     # расстояние от линзы до изображения - f
     def get_dist_image(self):
         if not self.biconcave:
-            return self.focal_length * self.dist_subject / (self.dist_subject - self.focal_length) \
-                if self.check_not_none_for_f() else None
+            if self.dist_subject - self.focal_length != 0:
+                return self.focal_length * self.dist_subject / (self.dist_subject - self.focal_length) \
+                    if self.check_not_none_for_f() else None
+            else:
+                return None
         else:
             return self.focal_length * self.dist_subject / (self.dist_subject + self.focal_length) \
                 if self.check_not_none_for_f() else None
 
-    def __display_graphic(self, virtual):
-        self.height_image = self.__calculate_image_height(0, self.focal_length, self.height_subject, 0, self.dist_image) \
-            if not self.biconcave else self.__calculate_image_height(0, (-1) * self.dist_subject, 0, self.height_subject,
-                                                                     (-1) * self.dist_image)
-        self.default_axis(virtual)
+    def __display_graphic(self):
+        if self.dist_image != 0:
+            self.height_image = self.__calculate_image_height(0, self.focal_length, self.height_subject, 0,
+                                                              self.dist_image) \
+                if not self.biconcave else self.__calculate_image_height(0, (-1) * self.dist_subject, 0,
+                                                                         self.height_subject,
+                                                                         (-1) * self.dist_image)
+        else:
+            self.height_image = 0
+        self.default_axis()
         self.build_object()
-        self.build_rays(virtual)
+        self.build_rays()
         plt.show()
 
-    def default_axis(self, virtual):
+    def __build_arrow(self, x1, x2, y1, y2, color="g"):
+        plt.plot([x1, x2], [y1, y2], color)  # Object
+        plt.plot([x1, x1 - 0.05 * y2], [y2, 0.85 * y2], color)  # Arrow Left
+        plt.plot([x1, x1 + 0.05 * y2], [y2, 0.85 * y2], color)  # Arrow Right
+
+    def default_axis(self):
         if not self.biconcave:
-            if virtual:
-                plt.plot([(-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5], [0, 0], "black")  # X
+            x_axes = self.dist_image if self.dist_image is not None else self.focal_length
+            if self.real_image:
+                plt.plot([(-1) * self.dist_subject - 5, x_axes + 5], [0, 0], "black")  # X
             else:
-                plt.plot([(-1) * self.dist_subject - 5, self.dist_image + 5], [0, 0], "black")  # X
+                plt.plot([(-1) * self.dist_subject + x_axes - 5, self.focal_length + 5], [0, 0], "black")  # X
         else:
             plt.plot([(-1) * self.dist_subject - 5, self.focal_length + 5], [0, 0], "black")  # X
-        plt.plot([0, 0], [max(abs(self.height_subject), abs(self.height_image)) + 10,  # Y
-                          (-1) * max(abs(self.height_subject), abs(self.height_image)) - 10], "black")
+        if self.height_image is not None:
+            plt.plot([0, 0], [max(abs(self.height_subject), abs(self.height_image)) + 10,  # Y
+                              (-1) * max(abs(self.height_subject), abs(self.height_image)) - 10], "black")
+        else:
+            plt.plot([0, 0], [abs(self.height_subject) + 10,  # Y
+                              (-1) * abs(self.height_subject) - 10], "black")
+        if self.biconcave:
+            plt.plot([-0.5, 0, 0.5],
+                     [abs(self.height_subject) + 4, abs(self.height_subject) + 3, abs(self.height_subject) + 4],
+                     "black")
+            plt.plot([-0.5, 0, 0.5],
+                     [-abs(self.height_subject) - 4, -abs(self.height_subject) - 3, -abs(self.height_subject) - 4],
+                     "black")
+        else:
+            plt.plot([-0.5, 0, 0.5],
+                     [abs(self.height_subject) + 3, abs(self.height_subject) + 4, abs(self.height_subject) + 3],
+                     "black")
+            plt.plot([-0.5, 0, 0.5],
+                     [-abs(self.height_subject) - 3, -abs(self.height_subject) - 4, -abs(self.height_subject) - 3],
+                     "black")
         plt.annotate("Линза", xy=(0, self.height_subject + 2))
         plt.axis('equal')
         plt.plot([self.focal_length, self.focal_length], [-0.5, 0.5], "r")
@@ -100,19 +132,34 @@ class OpticalBuilder:
 
     def build_object(self):
         if self.height_subject != 0:
-            plt.plot([(-1) * self.dist_subject, (-1) * self.dist_subject], [0, self.height_subject], "g")  # Object
+            self.__build_arrow((-1) * self.dist_subject, (-1) * self.dist_subject, 0, self.height_subject, "g")
         else:
             plt.plot([(-1) * self.dist_subject, (-1) * self.dist_subject], [0, 0], "go")  # Object
         plt.annotate("Объект", xy=((-1) * self.dist_subject, 1))
 
-    def build_rays(self, virtual=False):
+    def build_rays(self):
         x1 = 0
         x2 = self.focal_length
         y1 = self.height_subject
         y2 = 0
         y3 = self.height_image
         if not self.biconcave:
-            if virtual:
+            if self.real_image:
+                if self.dist_image is None and self.height_image is None:
+                    plt.plot([(-1) * self.dist_subject, x1, x2],  # parallel_x
+                             [self.height_subject, y1, y2], "blue")
+
+                    plt.plot([(-1) * self.dist_subject, 0, self.focal_length],  # line_focus
+                             [self.height_subject, 0, -self.height_subject], "blue")
+                else:
+                    plt.plot([(-1) * self.dist_subject, x1, x2, self.dist_image],  # parallel_x
+                             [self.height_subject, y1, y2, y3], "blue")
+
+                    plt.plot([(-1) * self.dist_subject, (-1) * self.focal_length, 0, self.dist_image],  # line_focus
+                             [self.height_subject, 0, y3, y3], "blue")
+                    self.__build_arrow(self.dist_image, self.dist_image, 0, y3, "--g")  # line_image
+                    plt.annotate("Изображение", xy=(self.dist_image, self.height_image * 0.5))
+            else:
                 plt.plot([(-1) * self.dist_subject, x1, x2],  # parallel_x
                          [self.height_subject, y1, y2], "blue")
                 plt.plot([x1, self.dist_image],  # parallel_x_image
@@ -123,24 +170,20 @@ class OpticalBuilder:
 
                 plt.plot([(-1) * self.dist_subject, self.dist_image],  # line_focus_image
                          [self.height_subject, y3], "--b")
-            else:
-                plt.plot([(-1) * self.dist_subject, x1, x2, self.dist_image],  # parallel_x
-                         [self.height_subject, y1, y2, y3], "blue")
+                self.__build_arrow(self.dist_image, self.dist_image, 0, y3, "--g")  # line_image
+                plt.annotate("Изображение", xy=(self.dist_image, self.height_image * 0.5))
 
-                plt.plot([(-1) * self.dist_subject, (-1) * self.focal_length, 0, self.dist_image],  # line_focus
-                         [self.height_subject, 0, y3, y3], "blue")
-
-            plt.plot([self.dist_image, self.dist_image], [0, y3], "--g")  # line_image
-            plt.annotate("Изображение", xy=(self.dist_image, 1))
-            if virtual:
-                plt.xlim((-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5)
+            if self.dist_image is None:
+                plt.xlim((-1) * self.focal_length - 5, self.focal_length + 5)
             else:
-                plt.xlim((-1) * self.dist_subject - 5, self.dist_image + 5)
+                if self.real_image:
+                    plt.xlim((-1) * self.dist_subject - 5, self.dist_image + 5)
+                else:
+                    plt.xlim((-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5)
         else:
             if self.height_subject != 0:
                 plt.plot([(-1) * self.dist_subject, x1, 3],  # parallel_x
                          [self.height_subject, y1, self.__calculate_image_height((-1) * self.focal_length, (-1) * self.dist_image, 0, self.height_image, 3)], "blue")
-
 
                 plt.plot([(-1) * self.focal_length, 0],
                          [0, self.height_subject], "--b")
@@ -151,8 +194,8 @@ class OpticalBuilder:
                 plt.plot([(-1) * self.dist_subject, 0, 3],  # line_focus
                          [self.height_subject, 0, self.__calculate_image_height(0, (-1) * self.dist_subject, 0, self.height_subject, 3)], "blue")
 
-                plt.plot([(-1) * self.dist_image, (-1) * self.dist_image], [0, y3], "--g")  # line_image
-                plt.annotate("Изображение", xy=((-1) * self.dist_image, 1))
+                self.__build_arrow((-1) * self.dist_image, (-1) * self.dist_image, 0, y3, "--g")  # line_image
+                plt.annotate("Изображение", xy=((-1) * self.dist_image, self.height_image * 0.5))
                 plt.xlim((-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5)
             else:
                 random_height = 5
@@ -172,7 +215,7 @@ class OpticalBuilder:
                          "blue")
 
                 plt.plot([(-1) * self.dist_image, (-1) * self.dist_image], [0, 0], "go")  # line_image
-                plt.annotate("Изображение", xy=((-1) * self.dist_image, 1))
+                plt.annotate("Изображение", xy=((-1) * self.dist_image, self.height_image * 0.5))
                 plt.xlim((-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5)
 
     def __calculate_image_height(self, x1, x2, y1, y2, x=None, y=None):
@@ -180,7 +223,9 @@ class OpticalBuilder:
         b = y2 - k * x2
         if x is not None:
             return k * x + b
-        return (y - b) / k
+        if y is not None:
+            return (y - b) / k
+        return None
 
     def execute(self):
         if self.check_not_none_for_d():
@@ -193,10 +238,10 @@ class OpticalBuilder:
             print("Заполните два из параметра f, d, F")
             return
 
-        virtual = self.dist_subject < self.focal_length if not self.biconcave else True
+        self.real_image = not self.dist_subject < self.focal_length if not self.biconcave else False
 
         if self.height_subject is None:
             print("Введите высоту предмета")
             return
 
-        self.__display_graphic(virtual)
+        self.__display_graphic()
