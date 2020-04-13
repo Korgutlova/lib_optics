@@ -77,11 +77,11 @@ class OpticalBuilder:
 
     def __display_graphic(self):
         if self.dist_image != 0:
-            self.height_image = self.__calculate_image_height(0, self.focal_length, self.height_subject, 0,
-                                                              self.dist_image) \
-                if not self.biconcave else self.__calculate_image_height(0, (-1) * self.dist_subject, 0,
-                                                                         self.height_subject,
-                                                                         (-1) * self.dist_image)
+            self.height_image = self.__calculate_coordinate(0, self.focal_length, self.height_subject, 0,
+                                                            self.dist_image) \
+                if not self.biconcave else self.__calculate_coordinate(0, (-1) * self.dist_subject, 0,
+                                                                       self.height_subject,
+                                                                       (-1) * self.dist_image)
         else:
             self.height_image = 0
         self.default_axis()
@@ -103,12 +103,8 @@ class OpticalBuilder:
                 plt.plot([(-1) * self.dist_subject + x_axes - 5, self.focal_length + 5], [0, 0], "black")  # X
         else:
             plt.plot([(-1) * self.dist_subject - 5, self.focal_length + 5], [0, 0], "black")  # X
-        if self.height_image is not None:
-            plt.plot([0, 0], [max(abs(self.height_subject), abs(self.height_image)) + 10,  # Y
-                              (-1) * max(abs(self.height_subject), abs(self.height_image)) - 10], "black")
-        else:
-            plt.plot([0, 0], [abs(self.height_subject) + 10,  # Y
-                              (-1) * abs(self.height_subject) - 10], "black")
+        plt.plot([0, 0], [abs(self.height_subject) + 3,  # Y
+                          (-1) * abs(self.height_subject) - 3], "black")
         if self.biconcave:
             plt.plot([-0.5, 0, 0.5],
                      [abs(self.height_subject) + 4, abs(self.height_subject) + 3, abs(self.height_subject) + 4],
@@ -118,10 +114,10 @@ class OpticalBuilder:
                      "black")
         else:
             plt.plot([-0.5, 0, 0.5],
-                     [abs(self.height_subject) + 3, abs(self.height_subject) + 4, abs(self.height_subject) + 3],
+                     [abs(self.height_subject) + 2, abs(self.height_subject) + 3, abs(self.height_subject) + 2],
                      "black")
             plt.plot([-0.5, 0, 0.5],
-                     [-abs(self.height_subject) - 3, -abs(self.height_subject) - 4, -abs(self.height_subject) - 3],
+                     [-abs(self.height_subject) - 2, -abs(self.height_subject) - 3, -abs(self.height_subject) - 2],
                      "black")
         plt.annotate("Линза", xy=(0, self.height_subject + 2))
         plt.axis('equal')
@@ -146,11 +142,11 @@ class OpticalBuilder:
         if not self.biconcave:
             if self.real_image:
                 if self.dist_image is None and self.height_image is None:
-                    plt.plot([(-1) * self.dist_subject, x1, x2],  # parallel_x
-                             [self.height_subject, y1, y2], "blue")
+                    plt.plot([(-1) * self.dist_subject, x1, 1.5 * x2],  # parallel_x
+                             [self.height_subject, y1, self.__calculate_coordinate(x1, x2, y1, y2, x=1.5 * x2)], "blue")
 
-                    plt.plot([(-1) * self.dist_subject, 0, self.focal_length],  # line_focus
-                             [self.height_subject, 0, -self.height_subject], "blue")
+                    plt.plot([(-1) * self.dist_subject, 1.5 * x2],  # line_focus
+                             [self.height_subject, self.__calculate_coordinate(0, x2, 0, -self.height_subject, x=1.5 * x2)], "blue")
                 else:
                     plt.plot([(-1) * self.dist_subject, x1, x2, self.dist_image],  # parallel_x
                              [self.height_subject, y1, y2, y3], "blue")
@@ -183,7 +179,7 @@ class OpticalBuilder:
         else:
             if self.height_subject != 0:
                 plt.plot([(-1) * self.dist_subject, x1, 3],  # parallel_x
-                         [self.height_subject, y1, self.__calculate_image_height((-1) * self.focal_length, (-1) * self.dist_image, 0, self.height_image, 3)], "blue")
+                         [self.height_subject, y1, self.__calculate_coordinate((-1) * self.focal_length, (-1) * self.dist_image, 0, self.height_image, 3)], "blue")
 
                 plt.plot([(-1) * self.focal_length, 0],
                          [0, self.height_subject], "--b")
@@ -192,7 +188,7 @@ class OpticalBuilder:
                          [(-1) * self.height_subject - 1, self.height_subject + 1], "--r")
 
                 plt.plot([(-1) * self.dist_subject, 0, 3],  # line_focus
-                         [self.height_subject, 0, self.__calculate_image_height(0, (-1) * self.dist_subject, 0, self.height_subject, 3)], "blue")
+                         [self.height_subject, 0, self.__calculate_coordinate(0, (-1) * self.dist_subject, 0, self.height_subject, 3)], "blue")
 
                 self.__build_arrow((-1) * self.dist_image, (-1) * self.dist_image, 0, y3, "--g")  # line_image
                 plt.annotate("Изображение", xy=((-1) * self.dist_image, self.height_image * 0.5))
@@ -201,24 +197,24 @@ class OpticalBuilder:
                 random_height = 5
                 plt.plot([(-1) * self.dist_subject, x1, 3],  # random ray
                          [self.height_subject, 5,
-                          self.__calculate_image_height((-1) * self.dist_image, 0, 0, random_height, 3)], "blue")
+                          self.__calculate_coordinate((-1) * self.dist_image, 0, 0, random_height, 3)], "blue")
 
                 plt.plot([0, (-1) * self.focal_length, 0],
-                         [random_height, self.__calculate_image_height(0, (-1) * self.dist_image, random_height, 0, (-1) * self.focal_length), 0], "--b")
+                         [random_height, self.__calculate_coordinate(0, (-1) * self.dist_image, random_height, 0, (-1) * self.focal_length), 0], "--b")
 
                 plt.plot([(-1) * self.focal_length, (-1) * self.focal_length],
                          [(-1) * self.height_subject - 5, self.height_subject + 5], "--r")
 
                 plt.plot([(-1) * self.dist_subject, 0, 3],  # line_focus
                          [self.height_subject, 0,
-                          self.__calculate_image_height(0, (-1) * self.dist_subject, 0, self.height_subject, 3)],
+                          self.__calculate_coordinate(0, (-1) * self.dist_subject, 0, self.height_subject, 3)],
                          "blue")
 
                 plt.plot([(-1) * self.dist_image, (-1) * self.dist_image], [0, 0], "go")  # line_image
                 plt.annotate("Изображение", xy=((-1) * self.dist_image, self.height_image * 0.5))
                 plt.xlim((-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5)
 
-    def __calculate_image_height(self, x1, x2, y1, y2, x=None, y=None):
+    def __calculate_coordinate(self, x1, x2, y1, y2, x=None, y=None):
         k = (y1 - y2) / (x1 - x2)
         b = y2 - k * x2
         if x is not None:
