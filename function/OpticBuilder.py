@@ -119,12 +119,7 @@ class BiconcaveLens(Lens):
 
     def default_axis(self):
         plt.plot([(-1) * self.dist_subject - 5, self.focal_length + 5], [0, 0], "black")  # X
-        if self.height_image is not None:
-            plt.plot([0, 0], [max(abs(self.height_subject), abs(self.height_image)) + 10,  # Y
-                              (-1) * max(abs(self.height_subject), abs(self.height_image)) - 10], "black")
-        else:
-            plt.plot([0, 0], [abs(self.height_subject) + 10,  # Y
-                              (-1) * abs(self.height_subject) - 10], "black")
+        plt.plot([0, 0], [abs(self.height_subject) + 3, (-1) * abs(self.height_subject) - 3], "black")  # Y
         plt.plot([-0.5, 0, 0.5],
                  [abs(self.height_subject) + 4, abs(self.height_subject) + 3, abs(self.height_subject) + 4],
                  "black")
@@ -238,17 +233,13 @@ class BiconvexLens(Lens):
             plt.plot([(-1) * self.dist_subject - 5, x_axes + 5], [0, 0], "black")  # X
         else:
             plt.plot([(-1) * self.dist_subject + x_axes - 5, self.focal_length + 5], [0, 0], "black")  # X
-        if self.height_image is not None:
-            plt.plot([0, 0], [max(abs(self.height_subject), abs(self.height_image)) + 10,  # Y
-                              (-1) * max(abs(self.height_subject), abs(self.height_image)) - 10], "black")
-        else:
-            plt.plot([0, 0], [abs(self.height_subject) + 10,  # Y
-                              (-1) * abs(self.height_subject) - 10], "black")
+
+        plt.plot([0, 0], [abs(self.height_subject) + 3, (-1) * abs(self.height_subject) - 3], "black")  # Y
         plt.plot([-0.5, 0, 0.5],
-                 [abs(self.height_subject) + 3, abs(self.height_subject) + 4, abs(self.height_subject) + 3],
+                 [abs(self.height_subject) + 2, abs(self.height_subject) + 3, abs(self.height_subject) + 2],
                  "black")
         plt.plot([-0.5, 0, 0.5],
-                 [-abs(self.height_subject) - 3, -abs(self.height_subject) - 4, -abs(self.height_subject) - 3],
+                 [-abs(self.height_subject) - 2, -abs(self.height_subject) - 3, -abs(self.height_subject) - 2],
                  "black")
         plt.annotate("Линза", xy=(0, self.height_subject + 2))
         plt.axis('equal')
@@ -265,11 +256,11 @@ class BiconvexLens(Lens):
         y3 = self.height_image
         if self.real_image:
             if self.dist_image is None or self.height_image is None:
-                plt.plot([(-1) * self.dist_subject, x1, x2],  # parallel_x
-                         [self.height_subject, y1, y2], "blue")
+                plt.plot([(-1) * self.dist_subject, x1, 1.5 * x2],  # parallel_x
+                         [self.height_subject, y1, self.calculate_coordinate(x1, x2, y1, y2, x=1.5 * x2)], "blue")
 
-                plt.plot([(-1) * self.dist_subject, 0, self.focal_length],  # line_focus
-                         [self.height_subject, 0, -self.height_subject], "blue")
+                plt.plot([(-1) * self.dist_subject, 1.5 * x2],  # line_focus
+                         [self.height_subject, self.calculate_coordinate(0, x2, 0, -self.height_subject, x=1.5 * x2)], "blue")
             else:
                 plt.plot([(-1) * self.dist_subject, x1, self.dist_image],  # parallel_x
                          [self.height_subject, y1, (-1) * y3], "blue")
