@@ -3,8 +3,12 @@ from function.RefractionLightClass import RefractionLightClass
 
 if __name__ == "__main__":
     # преломление света
-    # r = RefractionLightClass()
-    # r.build_graph(40, "water", "air")
+    r = RefractionLightClass()
+    r.build_graph(40, "water", "air")
+
+    # отражение света
+    r = RefractionLightClass()
+    r.build_graph(28, 3, 1)
 
     # точка и рассеивающая линза
     x = BiconcaveLens(dist_subject=10, focal_length=5, height_subject=0)
