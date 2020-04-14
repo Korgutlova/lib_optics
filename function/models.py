@@ -85,7 +85,7 @@ class Lens:
             return (y - b) / k
         return None
 
-    def execute(self):
+    def build_graph(self):
         pass
 
 
@@ -176,7 +176,7 @@ class BiconcaveLens(Lens):
             plt.annotate("Изображение", xy=((-1) * self.dist_image, self.height_image * 0.5))
             plt.xlim((-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5)
 
-    def execute(self):
+    def build_graph(self):
         if self.check_not_none_for_d():
             self.dist_subject = self.get_dist_subject()
         elif self.check_not_none_for_F():
@@ -291,7 +291,7 @@ class BiconvexLens(Lens):
             else:
                 plt.xlim((-1) * self.dist_subject + self.dist_image - 5, self.focal_length + 5)
 
-    def execute(self):
+    def build_graph(self):
         if self.check_not_none_for_d():
             self.dist_subject = self.get_dist_subject()
         elif self.check_not_none_for_F():
