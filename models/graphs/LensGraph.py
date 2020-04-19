@@ -1,10 +1,12 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+
+from models.graphs.AbstractGraph import AbstractGraph
 
 
-class Graph(ABC):
+class LensGraph(AbstractGraph):
 
     @abstractmethod
-    def display_graphic(self, dist_image, dist_subject, focal_length, height_subject, height_image, is_real_image):
+    def build_graph(self, dist_image, dist_subject, focal_length, height_subject, height_image, is_real_image):
         """Метод, вызывающийся для построения графика"""
 
     @abstractmethod

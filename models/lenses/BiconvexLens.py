@@ -1,9 +1,8 @@
-from models.BiconvexGraph import BiconvexGraph
-from models.Lens import Lens, LensInterface
+from models.graphs.BiconvexGraph import BiconvexGraph
+from models.lenses.AbstractLens import AbstractLens, LensInterface
 
 
-class BiconvexLens(Lens, LensInterface):
-
+class BiconvexLens(AbstractLens, LensInterface):
     graph = BiconvexGraph()
 
     # фокусное расстояние линзы - F
@@ -24,7 +23,7 @@ class BiconvexLens(Lens, LensInterface):
         else:
             return None
 
-    def build_graph(self):
+    def display_graphic(self):
         if self.check_not_none_for_d():
             self._dist_subject = self.get__dist_subject()
         elif self.check_not_none_for_F():
@@ -43,9 +42,9 @@ class BiconvexLens(Lens, LensInterface):
 
         if self._dist_image is not None:
             self._height_image = self.graph.calculate_coordinate(0, (-1) * self._dist_subject, 0, self._height_subject,
-                                                           (-1) * self._dist_image)
+                                                                 (-1) * self._dist_image)
         else:
             self._height_image = 0
 
-        self.graph.display_graphic(self._dist_image, self._dist_subject, self._focal_length, self._height_subject,
-                                   self._height_image, self._real_image)
+        self.graph.build_graph(self._dist_image, self._dist_subject, self._focal_length, self._height_subject,
+                               self._height_image, self._real_image)

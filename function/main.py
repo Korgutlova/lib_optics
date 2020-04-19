@@ -1,6 +1,6 @@
-from function.RefractionLightClass import RefractionLightClass
-from models.BiconcaveLens import BiconcaveLens
-from models.BiconvexLens import BiconvexLens
+from models.RefractionLightClass import RefractionLightClass
+from models.lenses.BiconcaveLens import BiconcaveLens
+from models.lenses.BiconvexLens import BiconvexLens
 
 if __name__ == "__main__":
     # преломление света
@@ -15,20 +15,20 @@ if __name__ == "__main__":
     x = BiconcaveLens(dist_subject=10, focal_length=5, height_subject=0)
     # пример с валидацией
     # x.dist_image = -10
-    x.build_graph()
+    x.display_graphic()
 
     # предмет и рассеивающая линза
     x = BiconcaveLens(dist_subject=15, focal_length=10, height_subject=10)
-    x.build_graph()
+    x.display_graphic()
 
     # предмет на фокусном расстоянии и собирательная линза
     x = BiconvexLens(dist_subject=10, focal_length=10, height_subject=5)
-    x.build_graph()
+    x.display_graphic()
 
     # предмет на фокусном расстоянии и собирательная линза
     x = BiconvexLens(dist_subject=15, focal_length=8, height_subject=5)
-    x.build_graph()
+    x.display_graphic()
 
     # предмет внутри фокуса собирательной линзы
     x = BiconvexLens(dist_subject=4, focal_length=5, height_subject=5)
-    x.build_graph()
+    x.display_graphic()

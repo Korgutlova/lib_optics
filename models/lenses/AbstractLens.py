@@ -5,7 +5,7 @@ import numbers
 from util import errors
 
 
-class Lens(ABC):
+class AbstractLens(ABC):
     _max_limit_value = 100
 
     _min_limit_vale = 0
@@ -151,7 +151,7 @@ class Lens(ABC):
         """Расстояние от линзы до предмета"""
 
     @abstractmethod
-    def build_graph(self):
+    def display_graphic(self):
         """Метод, который нужно вызвать для постройки и отображения графика"""
 
 
@@ -199,5 +199,5 @@ class LensInterface(ABC):
         """Расстояние от линзы до предмета"""
 
     @abstractmethod
-    def build_graph(self):
+    def display_graphic(self):
         """Метод, который нужно вызвать для постройки и отображения графика"""

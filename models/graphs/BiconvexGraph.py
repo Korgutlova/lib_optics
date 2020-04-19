@@ -1,9 +1,9 @@
-from models.Graph import Graph
+from models.graphs.LensGraph import LensGraph
 import matplotlib.pyplot as plt
 
 
-class BiconvexGraph(Graph):
-    def display_graphic(self, dist_image, dist_subject, focal_length, height_subject, height_image, is_real_image):
+class BiconvexGraph(LensGraph):
+    def build_graph(self, dist_image, dist_subject, focal_length, height_subject, height_image, is_real_image):
         self.default_axis(dist_subject, dist_image, focal_length, height_subject, is_real_image)
         self.build_subject(dist_subject, height_subject)
         self.build_rays(dist_subject, dist_image, focal_length, height_subject, height_image, is_real_image)
