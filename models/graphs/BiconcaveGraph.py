@@ -11,7 +11,7 @@ class BiconcaveGraph(LensGraph):
                  self._def_axes_color)
         plt.plot([-0.5, 0, 0.5], [-abs(height_subject) - 4, -abs(height_subject) - 3, -abs(height_subject) - 4],
                  self._def_axes_color)
-        plt.annotate("Линза", xy=(0, height_subject + 2))
+        plt.annotate("Линза", xy=(0.5, height_subject + 2))
         plt.axis('equal')
         self.build_focus(focal_length)
 
