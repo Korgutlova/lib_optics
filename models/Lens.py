@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 
-import matplotlib.pyplot as plt
 import numbers
 
 from util import errors
@@ -152,41 +151,8 @@ class Lens(ABC):
         """Расстояние от линзы до предмета"""
 
     @abstractmethod
-    def display_graphic(self):
-        """Отображение графика"""
-
-    @abstractmethod
-    def default_axis(self):
-        """Отображение осей"""
-
-    @abstractmethod
-    def build_rays(self):
-        """Отображение лучей"""
-
-    @abstractmethod
     def build_graph(self):
         """Метод, который нужно вызвать для постройки и отображения графика"""
-
-    def build_arrow(self, x1, x2, y1, y2, color="g", label="Изображение"):
-        plt.plot([x1, x2], [y1, y2], color, label=label)  # Object
-        plt.plot([x1, x1 - 0.05 * y2], [y2, 0.85 * y2], color)  # Arrow Left
-        plt.plot([x1, x1 + 0.05 * y2], [y2, 0.85 * y2], color)  # Arrow Right
-
-    def build_object(self):
-        if self._height_subject != 0:
-            self.build_arrow((-1) * self._dist_subject, (-1) * self._dist_subject, 0, self._height_subject,
-                             label="Объект")
-        else:
-            plt.plot([(-1) * self._dist_subject, (-1) * self._dist_subject], [0, 0], "go", label="Объект")  # Object
-
-    def calculate_coordinate(self, x1, x2, y1, y2, x=None, y=None):
-        k = (y1 - y2) / (x1 - x2)
-        b = y2 - k * x2
-        if x is not None:
-            return k * x + b
-        if y is not None:
-            return (y - b) / k
-        return None
 
 
 class LensInterface(ABC):
@@ -233,25 +199,5 @@ class LensInterface(ABC):
         """Расстояние от линзы до предмета"""
 
     @abstractmethod
-    def display_graphic(self):
-        """Отображение графика"""
-
-    @abstractmethod
-    def default_axis(self):
-        """Отображение осей"""
-
-    @abstractmethod
-    def build_rays(self):
-        """Отображение лучей"""
-
-    @abstractmethod
     def build_graph(self):
         """Метод, который нужно вызвать для постройки и отображения графика"""
-
-    @abstractmethod
-    def build_arrow(self, x1, x2, y1, y2, color="g", label="Изображение"):
-        """Построение стрелок"""
-
-    @abstractmethod
-    def build_object(self):
-        """Метод построения объекта"""
