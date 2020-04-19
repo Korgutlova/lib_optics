@@ -1,10 +1,12 @@
+from abc import ABC, abstractmethod
+
 import matplotlib.pyplot as plt
 import numbers
 
 from util import errors
 
 
-class Lens:
+class Lens(ABC):
     _max_limit_value = 100
 
     _min_limit_vale = 0
@@ -135,27 +137,40 @@ class Lens:
             if self._dist_image is not None and self._dist_subject is not None else None
 
     # фокусное расстояние линзы - F
+    @abstractmethod
     def get__focal_length(self):
-        pass
+        """Фокальное расстояние линзы"""
 
     # расстояние от линзы до предмета - d
+    @abstractmethod
     def get__dist_subject(self):
-        pass
+        """Расстояние от линзы до объекта"""
 
     # расстояние от линзы до изображения - f
+    @abstractmethod
     def get__dist_image(self):
-        pass
+        """Расстояние от линзы до предмета"""
 
+    @abstractmethod
     def display_graphic(self):
-        pass
+        """Отображение графика"""
+
+    @abstractmethod
+    def default_axis(self):
+        """Отображение осей"""
+
+    @abstractmethod
+    def build_rays(self):
+        """Отображение лучей"""
+
+    @abstractmethod
+    def build_graph(self):
+        """Метод, который нужно вызвать для постройки и отображения графика"""
 
     def build_arrow(self, x1, x2, y1, y2, color="g", label="Изображение"):
         plt.plot([x1, x2], [y1, y2], color, label=label)  # Object
         plt.plot([x1, x1 - 0.05 * y2], [y2, 0.85 * y2], color)  # Arrow Left
         plt.plot([x1, x1 + 0.05 * y2], [y2, 0.85 * y2], color)  # Arrow Right
-
-    def default_axis(self):
-        pass
 
     def build_object(self):
         if self._height_subject != 0:
@@ -163,9 +178,6 @@ class Lens:
                              label="Объект")
         else:
             plt.plot([(-1) * self._dist_subject, (-1) * self._dist_subject], [0, 0], "go", label="Объект")  # Object
-
-    def build_rays(self):
-        pass
 
     def calculate_coordinate(self, x1, x2, y1, y2, x=None, y=None):
         k = (y1 - y2) / (x1 - x2)
@@ -176,5 +188,70 @@ class Lens:
             return (y - b) / k
         return None
 
+
+class LensInterface(ABC):
+
+    @abstractmethod
+    def __str__(self):
+        """Строковое отображение"""
+
+    @abstractmethod
+    def _check_input_numbers(self, value, name):
+        """Проверка входных числовых аргументов"""
+
+    @abstractmethod
+    def _check_input_bool(self, value, name):
+        """Проверка входных логических аргументов """
+
+    @abstractmethod
+    def _compare_with_limit(self, param):
+        """Проверка предельных значений входных аргументов"""
+
+    # оптическая сила линзы - D
+    @abstractmethod
+    def get_optical_power(self):
+        """Вычисление оптической силы линзы"""
+
+    # увеличение линзы - Г
+    @abstractmethod
+    def get_lens_enlargement(self):
+        """Вычисление увеличения линзы"""
+
+    # фокусное расстояние линзы - F
+    @abstractmethod
+    def get__focal_length(self):
+        """Фокальное расстояние линзы"""
+
+    # расстояние от линзы до предмета - d
+    @abstractmethod
+    def get__dist_subject(self):
+        """Расстояние от линзы до объекта"""
+
+    # расстояние от линзы до изображения - f
+    @abstractmethod
+    def get__dist_image(self):
+        """Расстояние от линзы до предмета"""
+
+    @abstractmethod
+    def display_graphic(self):
+        """Отображение графика"""
+
+    @abstractmethod
+    def default_axis(self):
+        """Отображение осей"""
+
+    @abstractmethod
+    def build_rays(self):
+        """Отображение лучей"""
+
+    @abstractmethod
     def build_graph(self):
-        pass
+        """Метод, который нужно вызвать для постройки и отображения графика"""
+
+    @abstractmethod
+    def build_arrow(self, x1, x2, y1, y2, color="g", label="Изображение"):
+        """Построение стрелок"""
+
+    @abstractmethod
+    def build_object(self):
+        """Метод построения объекта"""

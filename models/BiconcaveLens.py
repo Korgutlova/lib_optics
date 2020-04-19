@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 
-from models.Lens import Lens
+from models.Lens import Lens, LensInterface
 
 
-class BiconcaveLens(Lens):
+class BiconcaveLens(Lens, LensInterface):
     # фокусное расстояние линзы - F
     def get__focal_length(self):
         return self._dist_image * self._dist_subject / (self._dist_subject + self._dist_image) \

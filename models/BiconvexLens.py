@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 
-from models.Lens import Lens
+from models.Lens import Lens, LensInterface
 
 
-class BiconvexLens(Lens):
+class BiconvexLens(Lens, LensInterface):
 
     # фокусное расстояние линзы - F
     def get__focal_length(self):
