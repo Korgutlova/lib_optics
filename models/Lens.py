@@ -149,8 +149,8 @@ class Lens:
     def display_graphic(self):
         pass
 
-    def build_arrow(self, x1, x2, y1, y2, color="g"):
-        plt.plot([x1, x2], [y1, y2], color)  # Object
+    def build_arrow(self, x1, x2, y1, y2, color="g", label="Изображение"):
+        plt.plot([x1, x2], [y1, y2], color, label=label)  # Object
         plt.plot([x1, x1 - 0.05 * y2], [y2, 0.85 * y2], color)  # Arrow Left
         plt.plot([x1, x1 + 0.05 * y2], [y2, 0.85 * y2], color)  # Arrow Right
 
@@ -159,10 +159,10 @@ class Lens:
 
     def build_object(self):
         if self._height_subject != 0:
-            self.build_arrow((-1) * self._dist_subject, (-1) * self._dist_subject, 0, self._height_subject, "g")
+            self.build_arrow((-1) * self._dist_subject, (-1) * self._dist_subject, 0, self._height_subject,
+                             label="Объект")
         else:
-            plt.plot([(-1) * self._dist_subject, (-1) * self._dist_subject], [0, 0], "go")  # Object
-        plt.annotate("Объект", xy=((-1) * self._dist_subject, 1))
+            plt.plot([(-1) * self._dist_subject, (-1) * self._dist_subject], [0, 0], "go", label="Объект")  # Object
 
     def build_rays(self):
         pass

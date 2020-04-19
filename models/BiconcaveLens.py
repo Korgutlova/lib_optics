@@ -28,6 +28,7 @@ class BiconcaveLens(Lens):
         self.default_axis()
         self.build_object()
         self.build_rays()
+        plt.legend(loc='lower right', shadow=True, fontsize='x-large')
         plt.show()
 
     def default_axis(self):
@@ -41,10 +42,8 @@ class BiconcaveLens(Lens):
                  "black")
         plt.annotate("Линза", xy=(0, self._height_subject + 2))
         plt.axis('equal')
-        plt.plot([self._focal_length, self._focal_length], [-0.5, 0.5], "r")
+        plt.plot([self._focal_length, self._focal_length], [-0.5, 0.5], "r", label="Фокус")
         plt.plot([-self._focal_length, -self._focal_length], [-0.5, 0.5], "r")
-        plt.annotate("F", xy=(self._focal_length, -1), color="r")
-        plt.annotate("F", xy=(-self._focal_length, -1), color="r")
 
     def build_rays(self):
         x1 = 0
@@ -70,7 +69,6 @@ class BiconcaveLens(Lens):
                       self.calculate_coordinate(0, (-1) * self._dist_subject, 0, self._height_subject, 3)], "blue")
 
             self.build_arrow((-1) * self._dist_image, (-1) * self._dist_image, 0, y3, "--g")  # line_image
-            plt.annotate("Изображение", xy=((-1) * self._dist_image, self._height_image * 0.5))
             plt.xlim((-1) * self._dist_subject + self._dist_image - 5, self._focal_length + 5)
         else:
             random_height = 5
@@ -92,8 +90,7 @@ class BiconcaveLens(Lens):
                       self.calculate_coordinate(0, (-1) * self._dist_subject, 0, self._height_subject, 3)],
                      "blue")
 
-            plt.plot([(-1) * self._dist_image, (-1) * self._dist_image], [0, 0], "go")  # line_image
-            plt.annotate("Изображение", xy=((-1) * self._dist_image, self._height_image * 0.5))
+            plt.plot([(-1) * self._dist_image, (-1) * self._dist_image], [0, 0], "mo", label="Изображение")
             plt.xlim((-1) * self._dist_subject + self._dist_image - 5, self._focal_length + 5)
 
     def build_graph(self):

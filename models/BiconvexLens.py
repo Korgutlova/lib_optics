@@ -32,6 +32,7 @@ class BiconvexLens(Lens):
         self.default_axis()
         self.build_object()
         self.build_rays()
+        plt.legend(loc='lower right', shadow=True, fontsize='x-large')
         plt.show()
 
     def default_axis(self):
@@ -50,10 +51,8 @@ class BiconvexLens(Lens):
                  "black")
         plt.annotate("Линза", xy=(0, self._height_subject + 2))
         plt.axis('equal')
-        plt.plot([self._focal_length, self._focal_length], [-0.5, 0.5], "r")
+        plt.plot([self._focal_length, self._focal_length], [-0.5, 0.5], "r", label="Фокус")
         plt.plot([-self._focal_length, -self._focal_length], [-0.5, 0.5], "r")
-        plt.annotate("F", xy=(self._focal_length, -1), color="r")
-        plt.annotate("F", xy=(-self._focal_length, -1), color="r")
 
     def build_rays(self):
         x1 = 0
@@ -76,7 +75,6 @@ class BiconvexLens(Lens):
                 plt.plot([(-1) * self._dist_subject, 0, self._dist_image],  # line_focus
                          [self._height_subject, (-1) * y3, (-1) * y3], "blue")
                 self.build_arrow(self._dist_image, self._dist_image, 0, (-1) * y3, "--g")  # line_image
-                plt.annotate("Изображение", xy=(self._dist_image, self._height_image * 0.5))
         else:
             plt.plot([(-1) * self._dist_subject, x1, x2],  # parallel_x
                      [self._height_subject, y1, y2], "blue")
@@ -89,7 +87,6 @@ class BiconvexLens(Lens):
             plt.plot([(-1) * self._dist_subject, self._dist_image],  # line_focus_image
                      [self._height_subject, y3], "--b")
             self.build_arrow(self._dist_image, self._dist_image, 0, y3, "--g")  # line_image
-            plt.annotate("Изображение", xy=(self._dist_image, self._height_image * 0.5))
 
         if self._dist_image is None:
             plt.xlim((-1) * self._focal_length - 5, self._focal_length + 5)
