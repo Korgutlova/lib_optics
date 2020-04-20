@@ -1,6 +1,6 @@
 class RefractiveIndexNotFound(ValueError):
-    def __init__(self, media):
-        super(RefractiveIndexNotFound, self).__init__(f'Индекс среды "{media}" не найден.')
+    def __init__(self, message):
+        super(RefractiveIndexNotFound, self).__init__(message)
 
 
 class InvalidRefractiveIndex(ValueError):

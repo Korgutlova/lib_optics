@@ -13,9 +13,9 @@ class RefractionLightClass:
     graph = RefractionGraph()
 
     def __init__(self):
-        self.dictionary = self.init_dictionary()
+        self.dictionary = self.__init_base_dictionary()
 
-    def init_dictionary(self):
+    def __init_base_dictionary(self):
         return pd.read_csv(self.file_to_csv, skiprows=1, header=None,
                            dtype={0: str, 1: np.float64}).set_index(0).squeeze().to_dict()
 
@@ -35,43 +35,45 @@ class RefractionLightClass:
 
     def get_angle_refraction(self, angle_incidence: float, medium_one, medium_two) -> float:
         self.__check_angle(angle_incidence)
-        medium_one = self.__validate_index_name(medium_one)
-        medium_two = self.__validate_index_name(medium_two)
+        _, medium_one = self.__validate_index_name(medium_one)
+        _, medium_two = self.__validate_index_name(medium_two)
         result_sin = math.sin(math.radians(angle_incidence)) * medium_one / medium_two
         if result_sin > 1:
             result_sin = -math.sin(math.radians(angle_incidence))
         return math.degrees(math.asin(result_sin))
 
-    def __validate_index_name(self, medium):
-        type_m = type(medium)
+    def __validate_index_name(self, label):
+        type_m = type(label)
         if type_m == str:
-            medium = self.get_refractive_index(medium)
+            value = self.get_refractive_index(label)
         else:
-            if isinstance(medium, numbers.Number):
-                if medium < 1 or medium > 10:
-                    raise errors.InvalidRefractiveIndex(f'Недопустимый индекс "{medium}" для среды. '
+            if isinstance(label, numbers.Number):
+                value = label
+                if value < 1 or value > 10:
+                    raise errors.InvalidRefractiveIndex(f'Недопустимый индекс "{value}" для среды. '
                                                         f'Допустимый индекс должен входить в рамки [1, 10]')
             else:
                 raise errors.InvalidRefractiveIndex(f'Недопустимый "{type_m}" тип для индекса среды')
-        return medium
+        return label, value
 
     def build_graph(self, angle_incidence: float, first_index, second_index):
-        first_index = self.__validate_index_name(first_index)
-        second_index = self.__validate_index_name(second_index)
+        first_label, first_index = self.__validate_index_name(first_index)
+        second_label, second_index = self.__validate_index_name(second_index)
         second_angle = self.get_angle_refraction(angle_incidence, first_index, second_index)
 
-        self.graph.build_graph(angle_incidence, first_index, second_index, second_angle)
+        self.graph.build_graph(angle_incidence, first_label, first_index, second_label, second_index, second_angle)
 
     def get_refractive_index(self, media: str) -> float:
         index = self.dictionary.get(media.lower(), -1)
         if index != -1:
             return index
         else:
-            raise errors.RefractiveIndexNotFound(media)
+            raise errors.RefractiveIndexNotFound(f'Индекс среды "{media}" не найден.')
 
-    def set_refractive_index(self, media: str, value: float):
-        # TODO save data to csv file and to the "dictionary"
-        pass
+
+    def set_refractive_indexes(self, file):
+        self.dictionary.update(pd.read_csv(file, header=None,
+                           dtype={0: str, 1: np.float64}).set_index(0).squeeze().to_dict())
 
     @staticmethod
     def __check_angle(angle):

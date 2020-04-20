@@ -27,9 +27,9 @@ def get_discriminant(k, b, r):
 
 
 class RefractionGraph(AbstractGraph):
-    def build_graph(self, angle_incidence: float, first_index, second_index, second_angle):
-        plt.annotate(first_index if type(first_index) == str else "Начальная среда", xy=(-1.5, 0.1))
-        plt.annotate(second_index if type(second_index) == str else "Конечная среда", xy=(0.5, 0.1))
+    def build_graph(self, angle_incidence: float, first_label, first_index, second_label, second_index, second_angle):
+        plt.annotate(first_label if type(first_label) == str else "Начальная среда", xy=(-1.5, 0.1))
+        plt.annotate(second_label if type(second_label) == str else "Конечная среда", xy=(0.5, 0.1))
         plt.annotate(angle_incidence, xy=(-0.6, -0.2))
         plt.annotate(math.floor(abs(second_angle)), xy=(0.5 if second_angle > 0 else -0.6, 0.3))
         first_x = 2 / math.tan(math.radians(angle_incidence))
