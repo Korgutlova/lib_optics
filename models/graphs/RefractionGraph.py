@@ -3,6 +3,9 @@ import math
 from models.graphs.LensGraph import AbstractGraph
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.colors as mcolors
+
+from util import errors
 
 
 def get_circle_coordinates(r):
@@ -29,25 +32,128 @@ def get_discriminant(k, b, r):
 
 
 class RefractionGraph(AbstractGraph):
+
+    def __init__(self):
+        self._axes_color = "black"
+        self._first_angle_color = "red"
+        self._second_angle_color = "blue"
+        self._first_ray_color = "blue"
+        self._second_ray_color = "orange"
+        self._first_medium_color = "aquamarine"
+        self._second_medium_color = "teal"
+        self._first_medium = "Начальная среда"
+        self._second_medium = "Конечная среда"
+        self._y_min = -2
+        self._y_max = 2
+        self._x_min = -2
+        self._x_max = 2
+
+    def _get_color(self, value):
+        """Получение кода цвета из библиотеки цветов CSS Colors"""
+        try:
+            return mcolors.CSS4_COLORS[value]
+        except KeyError:
+            raise errors.InvalidArgumentStyleGraphic(f"Цвета '{value}' не существует")
+
+    @property
+    def axes_color(self):
+        """Цвет осей координат"""
+        return self._axes_color
+
+    @axes_color.setter
+    def axes_color(self, value):
+        """Добавление цвета осей координат"""
+        self._axes_color = self._get_color(value)
+
+    @property
+    def first_angle_color(self):
+        """Цвет первого угла"""
+        return self._first_angle_color
+
+    @first_angle_color.setter
+    def first_angle_color(self, value):
+        """Добавление цвета первого угла"""
+        self._first_angle_color = self._get_color(value)
+
+    @property
+    def second_angle_color(self):
+        """Цвет второго угла"""
+        return self._second_angle_color
+
+    @second_angle_color.setter
+    def second_angle_color(self, value):
+        """Добавление цвета второго угла"""
+        self._second_angle_color = self._get_color(value)
+
+    @property
+    def first_ray_color(self):
+        """Цвет первого луча"""
+        return self._first_ray_color
+
+    @first_ray_color.setter
+    def first_ray_color(self, value):
+        """Добавление цвета первого луча """
+        self._first_ray_color = self._get_color(value)
+
+    @property
+    def second_ray_color(self):
+        """Цвет второго луча"""
+        return self._second_ray_color
+
+    @second_ray_color.setter
+    def second_ray_color(self, value):
+        """Добавление цвета второго луча"""
+        self._second_ray_color = self._get_color(value)
+
+    @property
+    def first_medium(self):
+        """Цвет первой среды"""
+        return self._first_medium
+
+    @first_medium.setter
+    def first_medium(self, value):
+        """Добавление цвета первой среды """
+        self._first_medium = self._get_color(value)
+
+    @property
+    def second_medium(self):
+        """Цвет второй среды"""
+        return self._second_medium
+
+    @second_medium.setter
+    def second_medium(self, value):
+        """Добавление цвета второй среды """
+        self._second_medium = self._get_color(value)
+
     def build_graph(self, angle_incidence: float, first_label, first_index, second_label, second_index, second_angle):
         """Метод, вызывающийся для построения графика"""
-        plt.annotate(first_label if type(first_label) == str else "Начальная среда", xy=(-1.5, 0.1))
-        plt.annotate(second_label if type(second_label) == str else "Конечная среда", xy=(0.5, 0.1))
+        plt.annotate(first_label if type(first_label) == str else self._first_medium, xy=(-1.5, 0.1))
+        plt.annotate(second_label if type(second_label) == str else self._second_medium, xy=(0.5, 0.1))
         plt.annotate(angle_incidence, xy=(-0.6, -0.2))
         plt.annotate(math.floor(abs(second_angle)), xy=(0.5 if second_angle > 0 else -0.6, 0.3))
         first_x = 2 / math.tan(math.radians(angle_incidence))
         second_x = 2 / math.tan(math.radians(second_angle))
         self.display_curves(-first_x, 0, -2, 0, 0, second_x, 0, 2)
-        plt.plot([-first_x, 0], [-2, 0])
-        plt.plot([0, second_x], [0, 2])
-        plt.axvline(x=0, color="black")
-        plt.axhline(y=0, color="black")
-        plt.xlim([-2, 2])
-        plt.ylim([-2, 2])
+        plt.plot([-first_x, 0], [self._y_min, 0], color=self._first_ray_color)
+        plt.plot([0, second_x], [0, self._y_max], color=self._second_ray_color)
+        plt.axvline(x=0, color=self._axes_color)
+        plt.axhline(y=0, color=self._axes_color)
+        plt.xlim([self._x_min, self._x_max])
+        plt.ylim([self._y_min, self._y_max])
+        self.fill_area(self._x_min, 0, self._y_min, self._y_max, self._first_medium_color)
+        self.fill_area(0, self._x_max, self._y_min, self._y_max, self._second_medium_color)
         frame = plt.gca()
         frame.axes.get_xaxis().set_ticks([])
         frame.axes.get_yaxis().set_ticks([])
         plt.show()
+
+    def fill_area(self, x_min, x_max, y_min, y_max, color):
+        """Заливка цветом определенной области"""
+        x = np.arange(x_min, x_max, 0.01)
+        y1 = [float(y_min) for i in range(len(x))]
+        y2 = [float(y_max) for i in range(len(x))]
+
+        plt.fill_between(x, y1, y2, color=color)
 
     def display_curves(self, x1, x2, y1, y2, x_1, x_2, y_1, y_2):
         """Отображение дуг углов"""
@@ -94,4 +200,4 @@ class RefractionGraph(AbstractGraph):
                         curve_x.append(elem1)
                         curve_y.append(elem2)
 
-        plt.plot(curve_x, curve_y, "black")
+        plt.plot(curve_x, curve_y, self._first_angle_color if is_first else self._second_angle_color)
