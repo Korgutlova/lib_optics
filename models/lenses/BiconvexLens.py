@@ -3,20 +3,21 @@ from models.lenses.AbstractLens import AbstractLens, LensInterface
 
 
 class BiconvexLens(AbstractLens, LensInterface):
+    """Класс двояковыпуклой собирающей линзы"""
     graph = BiconvexGraph()
 
-    # фокусное расстояние линзы - F
     def get__focal_length(self):
+        """Фокальное расстояние двояковыпуклой собирающей линзы"""
         return self._dist_image * self._dist_subject / (self._dist_subject - self._dist_image) \
             if self.check_not_none_for_F() else None
 
-    # расстояние от линзы до предмета - d
     def get__dist_subject(self):
+        """Расстояние от двояковыпуклой собирающей линзы до объекта"""
         return self._focal_length * self._dist_image / (self._focal_length - self._dist_image) \
             if self.check_not_none_for_d() else None
 
-    # расстояние от линзы до изображения - f
     def get__dist_image(self):
+        """Расстояние от двояковыпуклой собирающей линзы до изображения"""
         if self._dist_subject - self._focal_length != 0:
             return self._focal_length * self._dist_subject / (self._dist_subject - self._focal_length) \
                 if self.check_not_none_for_f() else None
@@ -24,6 +25,7 @@ class BiconvexLens(AbstractLens, LensInterface):
             return None
 
     def display_graphic(self):
+        """Метод, который нужно вызвать для постройки и отображения графика"""
         if self.check_not_none_for_d():
             self._dist_subject = self.get__dist_subject()
         elif self.check_not_none_for_F():

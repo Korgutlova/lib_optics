@@ -6,6 +6,7 @@ from util import errors
 
 
 class AbstractLens(ABC):
+    """Абстрактный класс линзы, используется для создания дочерних классов-линз"""
     _max_limit_value = 100
 
     _min_limit_vale = 0
@@ -40,68 +41,83 @@ class AbstractLens(ABC):
 
     @property
     def real_subject(self):
+        """Реальный ли предмет"""
         return self._real_subject
 
     @real_subject.setter
     def real_subject(self, value):
+        """Сеттер реальности предмета"""
         self._check_input_bool(value, "real_subject")
         self._real_subject = value
 
     @property
     def real_image(self):
+        """Реально ли изображение"""
         return self._real_image
 
     @real_image.setter
     def real_image(self, value):
+        """Сеттер реальности изображения"""
         self._check_input_bool(value, "real_image")
         self._real_image = value
 
     @property
     def dist_subject(self):
+        """Расстояние от линзы до предмета"""
         return self._dist_subject
 
     @dist_subject.setter
     def dist_subject(self, value):
+        """Сеттер расстояния от линзы до предмета"""
         self._check_input_numbers(value, "dist_subject")
         self._dist_subject = value
 
     @property
     def dist_image(self):
+        """Расстояние от линзы до изображения"""
         return self._dist_image
 
     @dist_image.setter
     def dist_image(self, value):
+        """Сеттер расстояния от линзы до изображения"""
         self._check_input_numbers(value, "dist_image")
         self._dist_image = value
 
     @property
     def focal_length(self):
+        """Фокальное расстояние линзы"""
         return self._focal_length
 
     @focal_length.setter
     def focal_length(self, value):
+        """Сеттер фокального расстояния линзы"""
         self._check_input_numbers(value, "focal_length")
         self._focal_length = value
 
     @property
     def height_subject(self):
+        """Высота предмета"""
         return self._height_subject
 
     @height_subject.setter
     def height_subject(self, value):
+        """Сеттер высоты предмета"""
         self._check_input_numbers(value, "height_subject")
         self._height_subject = value
 
     @property
     def height_image(self):
+        """Высота изображения"""
         return self._height_image
 
     @height_image.setter
     def height_image(self, value):
+        """Сеттер высоты изображения"""
         self._check_input_numbers(value, "height_image")
         self._height_image = value
 
     def _check_input_numbers(self, value, name):
+        """Проверка входных числовых аргументов"""
         if value is not None and not isinstance(value, numbers.Number):
             raise errors.InvalidArgumentForLens(self._pattern_invalid_argument % (value, name, "Number"))
 
@@ -109,43 +125,45 @@ class AbstractLens(ABC):
             raise errors.InvalidArgumentForLens(self._pattern_over_limit_argument % (value, name))
 
     def _check_input_bool(self, value, name):
+        """Проверка входных логических аргументов"""
         if value is not None and not isinstance(value, bool):
             raise errors.InvalidArgumentForLens(self._pattern_invalid_argument % (value, name, "bool"))
 
     def _compare_with_limit(self, param):
+        """Проверка предельных значений входных аргументов"""
         if param is None:
             return True
         return self._max_limit_value >= param >= self._min_limit_vale
 
     def check_not_none_for_F(self):
+        """Проверка, подано ли на вход фокальное расстояние линзы"""
         return self._dist_subject is not None and self._dist_image is not None
 
     def check_not_none_for_d(self):
+        """Проверка, подано ли на вход расстояние линзы от линзы до предмета"""
         return self._focal_length is not None and self._dist_image is not None
 
     def check_not_none_for_f(self):
+        """Проверка, подано ли на вход расстояние линзы от линзы до изображения"""
         return self._focal_length is not None and self._dist_subject is not None
 
-    # оптическая сила линзы - D
     def get_optical_power(self):
+        """Метод, вычисляющий оптическую силу линзы"""
         return 1 / self._focal_length if self._focal_length is not None else None
 
-    # увеличение линзы - Г
     def get_lens_enlargement(self):
+        """Метод, вычисляющий увеличение линзы"""
         return self._dist_image / self._dist_subject \
             if self._dist_image is not None and self._dist_subject is not None else None
 
-    # фокусное расстояние линзы - F
     @abstractmethod
     def get__focal_length(self):
         """Фокальное расстояние линзы"""
 
-    # расстояние от линзы до предмета - d
     @abstractmethod
     def get__dist_subject(self):
         """Расстояние от линзы до объекта"""
 
-    # расстояние от линзы до изображения - f
     @abstractmethod
     def get__dist_image(self):
         """Расстояние от линзы до предмета"""
@@ -167,33 +185,28 @@ class LensInterface(ABC):
 
     @abstractmethod
     def _check_input_bool(self, value, name):
-        """Проверка входных логических аргументов """
+        """Проверка входных логических аргументов"""
 
     @abstractmethod
     def _compare_with_limit(self, param):
         """Проверка предельных значений входных аргументов"""
 
-    # оптическая сила линзы - D
     @abstractmethod
     def get_optical_power(self):
         """Вычисление оптической силы линзы"""
 
-    # увеличение линзы - Г
     @abstractmethod
     def get_lens_enlargement(self):
         """Вычисление увеличения линзы"""
 
-    # фокусное расстояние линзы - F
     @abstractmethod
     def get__focal_length(self):
         """Фокальное расстояние линзы"""
 
-    # расстояние от линзы до предмета - d
     @abstractmethod
     def get__dist_subject(self):
         """Расстояние от линзы до объекта"""
 
-    # расстояние от линзы до изображения - f
     @abstractmethod
     def get__dist_image(self):
         """Расстояние от линзы до предмета"""

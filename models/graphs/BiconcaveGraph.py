@@ -3,19 +3,22 @@ import matplotlib.pyplot as plt
 
 
 class BiconcaveGraph(LensGraph):
+    """Класс для графиков с двояковыпуклыми рассеивающими линзами"""
 
-    def default_axis(self, dist_subject, dist_image, focal_length, height_subject, is_real_image):
-        plt.plot([(-1) * dist_subject - 5, focal_length + 5], [0, 0], self._def_axes_color)
-        plt.plot([0, 0], [abs(height_subject) + 3, (-1) * abs(height_subject) - 3], self._def_axes_color)
+    def build_axis(self, dist_subject, dist_image, focal_length, height_subject, is_real_image):
+        """Построение осей координат"""
+        plt.plot([(-1) * dist_subject - 5, focal_length + 5], [0, 0], self._axes_color)
+        plt.plot([0, 0], [abs(height_subject) + 3, (-1) * abs(height_subject) - 3], self._axes_color)
         plt.plot([-0.5, 0, 0.5], [abs(height_subject) + 4, abs(height_subject) + 3, abs(height_subject) + 4],
-                 self._def_axes_color)
+                 self._axes_color)
         plt.plot([-0.5, 0, 0.5], [-abs(height_subject) - 4, -abs(height_subject) - 3, -abs(height_subject) - 4],
-                 self._def_axes_color)
+                 self._axes_color)
         plt.annotate("Линза", xy=(0.5, height_subject + 2))
         plt.axis('equal')
         self.build_focus(focal_length)
 
     def build_rays(self, dist_subject, dist_image, focal_length, height_subject, height_image, is_real_image):
+        """Построение лучей"""
         x1 = 0
         y1 = height_subject
         y2 = height_image
