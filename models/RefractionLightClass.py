@@ -9,6 +9,8 @@ from util import errors
 
 
 class RefractionLightClass:
+    """Класс для вычисления угла падения/отражения на границу раздела двух сред"""
+
     file_to_csv = "../files/list_of_refractive_indices.csv"
     graph = RefractionGraph()
 
@@ -16,6 +18,7 @@ class RefractionLightClass:
         self.dictionary = self.init_dictionary()
 
     def init_dictionary(self):
+        """Загрузка библиотеки показателей преломления сред"""
         return pd.read_csv(self.file_to_csv, skiprows=1, header=None,
                            dtype={0: str, 1: np.float64}).set_index(0).squeeze().to_dict()
 
@@ -34,6 +37,7 @@ class RefractionLightClass:
     """
 
     def get_angle_refraction(self, angle_incidence: float, medium_one, medium_two) -> float:
+        """Расчёт угла отражения"""
         self.__check_angle(angle_incidence)
         medium_one = self.__validate_index_name(medium_one)
         medium_two = self.__validate_index_name(medium_two)
@@ -43,6 +47,7 @@ class RefractionLightClass:
         return math.degrees(math.asin(result_sin))
 
     def __validate_index_name(self, medium):
+        """Валидация имён сред"""
         type_m = type(medium)
         if type_m == str:
             medium = self.get_refractive_index(medium)
@@ -56,6 +61,7 @@ class RefractionLightClass:
         return medium
 
     def build_graph(self, angle_incidence: float, first_index, second_index):
+        """Метод построения графика"""
         first_index = self.__validate_index_name(first_index)
         second_index = self.__validate_index_name(second_index)
         second_angle = self.get_angle_refraction(angle_incidence, first_index, second_index)
@@ -63,6 +69,7 @@ class RefractionLightClass:
         self.graph.build_graph(angle_incidence, first_index, second_index, second_angle)
 
     def get_refractive_index(self, media: str) -> float:
+        """Получение показателя преломления среды"""
         index = self.dictionary.get(media.lower(), -1)
         if index != -1:
             return index
@@ -70,11 +77,13 @@ class RefractionLightClass:
             raise errors.RefractiveIndexNotFound(media)
 
     def set_refractive_index(self, media: str, value: float):
+        """Сеттер показателя преломления среды"""
         # TODO save data to csv file and to the "dictionary"
         pass
 
     @staticmethod
     def __check_angle(angle):
+        """Проверка валидности угла"""
         if not isinstance(angle, numbers.Number):
             raise errors.InvalidArgumentForAngle(f'Недопустимый "{angle}" тип для угла')
         if angle <= 0 or angle >= 90:

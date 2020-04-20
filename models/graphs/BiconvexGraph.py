@@ -3,24 +3,27 @@ import matplotlib.pyplot as plt
 
 
 class BiconvexGraph(LensGraph):
+    """Класс для графиков с двояковогнутыми собирающими линзами"""
 
-    def default_axis(self, dist_subject, dist_image, focal_length, height_subject, is_real_image):
+    def build_axis(self, dist_subject, dist_image, focal_length, height_subject, is_real_image):
+        """Построение осей координат"""
         x_axes = dist_image if dist_image is not None else focal_length
         if is_real_image:
-            plt.plot([(-1) * dist_subject - 5, x_axes + 5], [0, 0], self._def_axes_color)
+            plt.plot([(-1) * dist_subject - 5, x_axes + 5], [0, 0], self._axes_color)
         else:
-            plt.plot([(-1) * dist_subject + x_axes - 5, focal_length + 5], [0, 0], self._def_axes_color)
+            plt.plot([(-1) * dist_subject + x_axes - 5, focal_length + 5], [0, 0], self._axes_color)
 
-        plt.plot([0, 0], [abs(height_subject) + 3, (-1) * abs(height_subject) - 3], self._def_axes_color)
+        plt.plot([0, 0], [abs(height_subject) + 3, (-1) * abs(height_subject) - 3], self._axes_color)
         plt.plot([-0.5, 0, 0.5], [abs(height_subject) + 2, abs(height_subject) + 3, abs(height_subject) + 2],
-                 self._def_axes_color)
+                 self._axes_color)
         plt.plot([-0.5, 0, 0.5], [-abs(height_subject) - 2, -abs(height_subject) - 3, -abs(height_subject) - 2],
-                 self._def_axes_color)
+                 self._axes_color)
         plt.annotate("Линза", xy=(0.7, height_subject + 2))
         plt.axis('equal')
         self.build_focus(focal_length)
 
     def build_rays(self, dist_subject, dist_image, focal_length, height_subject, height_image, is_real_image):
+        """Построение лучей"""
         x1 = 0
         x2 = focal_length
         y1 = height_subject

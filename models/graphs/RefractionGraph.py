@@ -6,6 +6,7 @@ import numpy as np
 
 
 def get_circle_coordinates(r):
+    """Метод расчёта координат дуг углов"""
     theta = np.linspace(0, 2 * np.pi, 1000)
     x = r * np.cos(theta)
     y = r * np.sin(theta)
@@ -13,13 +14,14 @@ def get_circle_coordinates(r):
 
 
 def get_koef(x1, x2, y1, y2):
+    """Метод расчёта коэффициента в уравнении прямой"""
     k = (y1 - y2) / (x1 - x2)
     b = y2 - k * x2
     return k, b
 
 
-# пересечение между прямой и окружностью
 def get_discriminant(k, b, r):
+    """Метод для расчёта дискриминанта"""
     D = math.sqrt(abs(r * r * (k * k + 1) - b * b))
     x1 = ((-1) * k * b - D) / (1 + k * k)
     x2 = ((-1) * k * b + D) / (1 + k * k)
@@ -28,6 +30,7 @@ def get_discriminant(k, b, r):
 
 class RefractionGraph(AbstractGraph):
     def build_graph(self, angle_incidence: float, first_index, second_index, second_angle):
+        """Метод, вызывающийся для построения графика"""
         plt.annotate(first_index if type(first_index) == str else "Начальная среда", xy=(-1.5, 0.1))
         plt.annotate(second_index if type(second_index) == str else "Конечная среда", xy=(0.5, 0.1))
         plt.annotate(angle_incidence, xy=(-0.6, -0.2))
@@ -47,15 +50,18 @@ class RefractionGraph(AbstractGraph):
         plt.show()
 
     def display_curves(self, x1, x2, y1, y2, x_1, x_2, y_1, y_2):
+        """Отображение дуг углов"""
         r = 0.5
 
         self.__display_curve(x1, x2, y1, y2, r, True)
         self.__display_curve(x_1, x_2, y_1, y_2, r, False)
 
     def get_Y(self, x, k, b):
+        """Вычисление координаты y по уравнению прямой"""
         return x * k + b
 
     def __display_curve(self, x1, x2, y1, y2, r, is_first):
+        """Отображение дуги угла"""
         x, y = get_circle_coordinates(r)
         k, b = get_koef(x1, x2, y1, y2)
         x_1, x_2 = get_discriminant(k, b, r)
