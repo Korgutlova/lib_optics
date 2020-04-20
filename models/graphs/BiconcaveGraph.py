@@ -18,7 +18,7 @@ class BiconcaveGraph(LensGraph):
         :param height_subject: float
             Высота объекта
         :param focal_length: float
-            Фокальное расстояние линзы
+            фокусное расстояние линзы
         :param is_real_image: bool
             Является изображение реальным или нет
         """
@@ -47,7 +47,7 @@ class BiconcaveGraph(LensGraph):
         :param height_image: float
             Высота изображения
         :param focal_length: float
-            Фокальное расстояние линзы
+            фокусное расстояние линзы
         :param is_real_image: bool
             Является изображение реальным или нет
         """

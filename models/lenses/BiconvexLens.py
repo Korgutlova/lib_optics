@@ -9,9 +9,9 @@ class BiconvexLens(AbstractLens, LensInterface):
 
     def get__focal_length(self):
         """
-        Метод, вычисляющий фокальное расстояние линзы
+        Метод, вычисляющий фокусное расстояние линзы
 
-        :returns фокальное расстояние линзы
+        :returns фокусное расстояние линзы
         """
         return self._dist_image * self._dist_subject / (self._dist_subject - self._dist_image)
 
