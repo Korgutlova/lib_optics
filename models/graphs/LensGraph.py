@@ -6,6 +6,7 @@ from util import errors
 
 
 class LensGraph(AbstractGraph):
+    """Абстрактный класс для графиков с линзами"""
     _dash = "--"
     _point = "o"
     _colors = {"blue": "b", "green": "g", "red": "r", "cyan": "c",
@@ -74,6 +75,7 @@ class LensGraph(AbstractGraph):
         return None
 
     def _check_input_color(self, color):
+        """Валидация цвета, поданного на вход"""
         if color is None:
             raise errors.InvalidArgumentStyleGraphic("color не может быть равен None")
         if not isinstance(color, str):
@@ -81,6 +83,7 @@ class LensGraph(AbstractGraph):
         self._check_color_for_existence(color)
 
     def _check_input_label(self, label):
+        """Валидация метки, поданной на вход"""
         if label is None:
             raise errors.InvalidArgumentStyleGraphic("label не может быть равен None")
         if not isinstance(label, str):
@@ -89,12 +92,14 @@ class LensGraph(AbstractGraph):
             raise errors.InvalidArgumentStyleGraphic("label не может превышать более 20 символов")
 
     def _check_color_for_existence(self, color):
+        """Проверка существования цвета"""
         for key, value in self._colors.items():
             if key == color or value == color:
                 return
         raise errors.InvalidArgumentStyleGraphic(f"Цвета '{color}'не существует")
 
     def _get_marker_color(self, marker, value):
+        """Получение цвета маркера"""
         return marker + (value if len(value) == 1 else self._colors[value])
 
     @property
