@@ -18,7 +18,6 @@ class RefractionLightClass:
         self.dictionary = self.__init_base_dictionary()
 
     def __init_base_dictionary(self):
-    def init_dictionary(self):
         """Загрузка библиотеки показателей преломления сред"""
         return pd.read_csv(self.file_to_csv, skiprows=1, header=None,
                            dtype={0: str, 1: np.float64}).set_index(0).squeeze().to_dict()
@@ -47,10 +46,8 @@ class RefractionLightClass:
             result_sin = -math.sin(math.radians(angle_incidence))
         return math.degrees(math.asin(result_sin))
 
-    def __validate_index_name(self, medium):
-        """Валидация имён сред"""
-        type_m = type(medium)
     def __validate_index_name(self, label):
+        """Валидация имён сред"""
         type_m = type(label)
         if type_m == str:
             value = self.get_refractive_index(label)
@@ -61,15 +58,13 @@ class RefractionLightClass:
                     raise errors.InvalidRefractiveIndex(f'Недопустимый индекс "{value}" для среды. '
                                                         f'Допустимый индекс должен входить в рамки [1, 10]')
             else:
-                raise errors.InvalidRefractiveIndex(f'Недопустимый "{type_m}" тип для индекса среды')
+                raise errors.InvalidRefractiveIndex(f'Недопустимый тип для индекса среды: "{type_m}"')
         return label, value
 
     def build_graph(self, angle_incidence: float, first_index, second_index):
+        """Метод построения графика"""
         first_label, first_index = self.__validate_index_name(first_index)
         second_label, second_index = self.__validate_index_name(second_index)
-        """Метод построения графика"""
-        first_index = self.__validate_index_name(first_index)
-        second_index = self.__validate_index_name(second_index)
         second_angle = self.get_angle_refraction(angle_incidence, first_index, second_index)
 
         self.graph.build_graph(angle_incidence, first_label, first_index, second_label, second_index, second_angle)
@@ -82,12 +77,8 @@ class RefractionLightClass:
         else:
             raise errors.RefractiveIndexNotFound(f'Индекс среды "{media}" не найден.')
 
-    def set_refractive_index(self, media: str, value: float):
-        """Сеттер показателя преломления среды"""
-        # TODO save data to csv file and to the "dictionary"
-        pass
-
     def set_refractive_indexes(self, file):
+        """Добавление пользовательских показателей преломления среды"""
         self.dictionary.update(pd.read_csv(file, header=None,
                            dtype={0: str, 1: np.float64}).set_index(0).squeeze().to_dict())
 
