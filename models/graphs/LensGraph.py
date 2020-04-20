@@ -149,7 +149,6 @@ class LensGraph(AbstractGraph):
         self._image_color = value
         self._image_point = self._get_marker_color(self._point, value)
         self._image_dash = self._get_marker_color(self._dash, value)
-        print(self._image_dash, self._image_point, self.image_color)
 
     @property
     def subject_color(self):
