@@ -7,19 +7,28 @@ class BiconcaveLens(AbstractLens, LensInterface):
     graph = BiconcaveGraph()
 
     def get__focal_length(self):
-        """Фокальное расстояние двояковогнутой рассеивающей линзы"""
-        return self._dist_image * self._dist_subject / (self._dist_subject + self._dist_image) \
-            if self.check_not_none_for_F() else None
+        """
+        Метод, вычисляющий фокальное расстояние линзы
+
+        :returns фокальное расстояние линзы
+        """
+        return self._dist_image * self._dist_subject / (self._dist_subject + self._dist_image)
 
     def get__dist_subject(self):
-        """Расстояние от двояковогнутой рассеивающей линзы до объекта"""
-        return self._focal_length * self._dist_image / (self._dist_image - self._focal_length) \
-            if self.check_not_none_for_d() else None
+        """
+        Метод, вычисляющий расстояние от линзы до предмета
+
+        :returns расстояние от линзы до предмета
+        """
+        return self._focal_length * self._dist_image / (self._dist_image - self._focal_length)
 
     def get__dist_image(self):
-        """Расстояние от двояковогнутой рассеивающей линзы до изображения"""
-        return self._focal_length * self._dist_subject / (self._dist_subject + self._focal_length) \
-            if self.check_not_none_for_f() else None
+        """
+        Метод, вычисляющий расстояние от линзы до изображения
+
+        :returns расстояние от линзы до изображения
+        """
+        return self._focal_length * self._dist_subject / (self._dist_subject + self._focal_length)
 
     def display_graphic(self):
         """Метод, который нужно вызвать для постройки и отображения графика"""
