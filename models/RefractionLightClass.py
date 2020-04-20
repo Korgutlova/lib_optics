@@ -114,7 +114,7 @@ class RefractionLightClass:
         Parameters
         ----------
         :param file: str
-            Путь к пользовательскому файлу с коэффициентами отражения сред
+            Путь к пользовательскому файлу с коэффициентами преломлений среды
         """
         self.dictionary.update(pd.read_csv(file, header=None,
                            dtype={0: str, 1: np.float64}).set_index(0).squeeze().to_dict())

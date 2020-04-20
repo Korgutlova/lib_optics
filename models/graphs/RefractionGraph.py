@@ -6,65 +6,7 @@ import numpy as np
 import matplotlib.colors as mcolors
 
 from util import errors
-
-
-def get_circle_coordinates(r):
-    """
-    Метод расчёта координат дуг углов
-
-    Parameters
-    ----------
-    :param r: float
-        Радиус дуги
-
-    :returns списки координат двух дуг
-    """
-    theta = np.linspace(0, 2 * np.pi, 1000)
-    x = r * np.cos(theta)
-    y = r * np.sin(theta)
-    return x, y
-
-
-def get_koef(x1, x2, y1, y2):
-    """
-    Метод расчёта коэффициента в уравнении прямой
-    Parameters
-    ----------
-    :param x1: float
-        Координата x первой точки
-    :param x2: float
-        Координата x второй точки
-    :param y1: float
-        Координата y первой точки
-    :param y2: float
-        Координата y второй точки
-
-    :returns коэффициенты k, b
-    """
-    k = (y1 - y2) / (x1 - x2)
-    b = y2 - k * x2
-    return k, b
-
-
-def get_discriminant(k, b, r):
-    """
-    Метод для расчёта дискриминанта
-
-    Parameters
-    ----------
-    :param k: float
-        Коэффициент k
-    :param b: float
-        Коэффициент b
-    :param r: float
-        Коэффициент r
-
-    :returns 2 значения дискриминанта
-    """
-    D = math.sqrt(abs(r * r * (k * k + 1) - b * b))
-    x1 = ((-1) * k * b - D) / (1 + k * k)
-    x2 = ((-1) * k * b + D) / (1 + k * k)
-    return x1, x2
+from util.MathHelper import MathHelper
 
 
 class RefractionGraph(AbstractGraph):
@@ -84,6 +26,7 @@ class RefractionGraph(AbstractGraph):
         self._y_max = 2
         self._x_min = -2
         self._x_max = 2
+        self._radius = 0.5
 
     def _get_color(self, value):
         """
@@ -255,7 +198,7 @@ class RefractionGraph(AbstractGraph):
         :param first_index: float
             Коэффициент отражения первой среды
         :param second_label: str
-            Название вторйо среды
+            Название второй среды
         :param second_index: float
             Коэффициент отражения второй среды
         :param second_angle: float
@@ -267,7 +210,8 @@ class RefractionGraph(AbstractGraph):
         plt.annotate(math.floor(abs(second_angle)), xy=(0.5 if second_angle > 0 else -0.6, 0.3))
         first_x = 2 / math.tan(math.radians(angle_incidence))
         second_x = 2 / math.tan(math.radians(second_angle))
-        self.display_curves(-first_x, 0, -2, 0, 0, second_x, 0, 2)
+        self.__display_curve(-first_x, 0, self._y_min, 0, True)
+        self.__display_curve(0, second_x, 0, self._y_max, False)
         plt.plot([-first_x, 0], [self._y_min, 0], color=self._first_ray_color)
         plt.plot([0, second_x], [0, self._y_max], color=self._second_ray_color)
         plt.axvline(x=0, color=self._axes_color)
@@ -304,26 +248,6 @@ class RefractionGraph(AbstractGraph):
 
         plt.fill_between(x, y1, y2, color=color)
 
-    def display_curves(self, x1, x2, y1, y2, x_1, x_2, y_1, y_2):
-        """
-        Отображение дуг углов
-
-        Parameters
-        ----------
-        :param x1:
-        :param x2:
-        :param y1:
-        :param y2:
-        :param x_1:
-        :param x_2:
-        :param y_1:
-        :param y_2:
-        """
-        r = 0.5
-
-        self.__display_curve(x1, x2, y1, y2, r, True)
-        self.__display_curve(x_1, x_2, y_1, y_2, r, False)
-
     def get_Y(self, x, k, b):
         """
         Вычисление координаты y по уравнению прямой
@@ -331,7 +255,7 @@ class RefractionGraph(AbstractGraph):
         Parameters
         ----------
         :param x: float
-            Коэффициент x
+            Значение x на прямой
         :param k: float
             Коэффициент k
         :param b: float
@@ -341,22 +265,26 @@ class RefractionGraph(AbstractGraph):
         """
         return x * k + b
 
-    def __display_curve(self, x1, x2, y1, y2, r, is_first):
+    def __display_curve(self, x1, x2, y1, y2, is_first):
         """
         Отображение дуги угла
 
         Parameters
         ----------
-        :param x1:
-        :param x2:
-        :param y1:
-        :param y2:
-        :param r:
-        :param is_first:
+        :param x1: float
+            Координата x первой точки прямой
+        :param x2: float
+            Координата x второй точки прямой
+        :param y1: float
+            Координата y первой точки прямой
+        :param y2: float
+            Координата y второй точки прямой
+        :param is_first: bool
+            Образован ли этот угол падающим лучом
         """
-        x, y = get_circle_coordinates(r)
-        k, b = get_koef(x1, x2, y1, y2)
-        x_1, x_2 = get_discriminant(k, b, r)
+        x, y = MathHelper.get_circle_coordinates(self._radius)
+        k, b = MathHelper.get_koef(x1, x2, y1, y2)
+        x_1, x_2 = MathHelper.find_roots(k, b, self._radius)
         if is_first:
             x_point = x_1 if x_1 < 0 else x_2
         else:
