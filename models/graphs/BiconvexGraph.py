@@ -42,7 +42,7 @@ class BiconvexGraph(LensGraph):
 
                 plt.plot([(-1) * dist_subject, 0, dist_image],  # line_focus
                          [height_subject, (-1) * y3, (-1) * y3], self._rays_color)
-                self.build_arrow(dist_image, dist_image, 0, (-1) * y3, self._subject_dash, self._image_label)
+                self.build_arrow(dist_image, dist_image, 0, (-1) * y3, self._image_dash, self._image_label)
         else:
             plt.plot([(-1) * dist_subject, x1, x2], [height_subject, y1, y2], self._rays_color)
             plt.plot([x1, dist_image], [y1, y3], self._rays_dash)
@@ -51,7 +51,7 @@ class BiconvexGraph(LensGraph):
 
             plt.plot([(-1) * dist_subject, dist_image], [height_subject, y3], self._rays_dash)
 
-            self.build_arrow(dist_image, dist_image, 0, y3, self._subject_dash, self._image_label)
+            self.build_arrow(dist_image, dist_image, 0, y3, self._image_dash, self._image_label)
 
         if dist_image is None:
             plt.xlim((-1) * focal_length - 5, focal_length + 5)

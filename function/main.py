@@ -31,4 +31,7 @@ if __name__ == "__main__":
 
     # предмет внутри фокуса собирательной линзы
     x = BiconvexLens(dist_subject=4, focal_length=5, height_subject=5)
+    # пример со сменой цвета
+    x.graph.image_color = "k"
+    x.graph.rays_color = "c"
     x.display_graphic()

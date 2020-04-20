@@ -16,3 +16,8 @@ class InvalidArgumentForLens(ValueError):
 class InvalidArgumentForAngle(ValueError):
     def __init__(self, message):
         super(InvalidArgumentForAngle, self).__init__(message)
+
+
+class InvalidArgumentStyleGraphic(ValueError):
+    def __init__(self, message):
+        super(InvalidArgumentStyleGraphic, self).__init__(message)
