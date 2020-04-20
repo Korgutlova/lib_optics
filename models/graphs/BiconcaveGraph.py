@@ -6,7 +6,22 @@ class BiconcaveGraph(LensGraph):
     """Класс для графиков с двояковыпуклыми рассеивающими линзами"""
 
     def build_axis(self, dist_subject, dist_image, focal_length, height_subject, is_real_image):
-        """Построение осей координат"""
+        """
+        Построение осей координат
+
+        Parameters
+        ----------
+        :param dist_subject: float
+            Расстояние от линзы до предмета
+        :param dist_image: float
+            Расстояние от линзы до изображения
+        :param height_subject: float
+            Высота предмета
+        :param focal_length: float
+            Фокальное расстояние линзы
+        :param is_real_image: bool
+            Является изображение реальным или нет
+        """
         plt.plot([(-1) * dist_subject - 5, focal_length + 5], [0, 0], self._axes_color)
         plt.plot([0, 0], [abs(height_subject) + 3, (-1) * abs(height_subject) - 3], self._axes_color)
         plt.plot([-0.5, 0, 0.5], [abs(height_subject) + 4, abs(height_subject) + 3, abs(height_subject) + 4],
@@ -18,7 +33,24 @@ class BiconcaveGraph(LensGraph):
         self.build_focus(focal_length)
 
     def build_rays(self, dist_subject, dist_image, focal_length, height_subject, height_image, is_real_image):
-        """Построение лучей"""
+        """
+        Построение лучей
+
+        Parameters
+        ----------
+        :param dist_subject: float
+            Расстояние от линзы до предмета
+        :param dist_image: float
+            Расстояние от линзы до изображения
+        :param height_subject: float
+            Высота предмета
+        :param height_image: float
+            Высота изображения
+        :param focal_length: float
+            Фокальное расстояние линзы
+        :param is_real_image: bool
+            Является изображение реальным или нет
+        """
         x1 = 0
         y1 = height_subject
         y2 = height_image

@@ -22,22 +22,20 @@ class RefractionLightClass:
         return pd.read_csv(self.file_to_csv, skiprows=1, header=None,
                            dtype={0: str, 1: np.float64}).set_index(0).squeeze().to_dict()
 
-    """
-    Get the angle of refraction based on the given parameters
-    
-    Parameters
-    ----------
-    
-    angle_incidence : int 
-        Angle in degrees 
-    medium_one : float/int or str
-        Эта среда откуда проходит луч, значение показателя преломления, или название среды
-    medium_two : float/int or str
-        Эта среда куда проходит луч, значение показателя преломления, или название среды
-    """
-
     def get_angle_refraction(self, angle_incidence: float, medium_one, medium_two) -> float:
-        """Расчёт угла отражения"""
+        """
+        Расчёт угла отражения
+
+        Parameters
+        ----------
+        :param angle_incidence: float
+            Угол падения
+        :param medium_one: float
+            Коэффициент отражения первой среды
+        :param medium_two: float
+            Коэффициент отражения второй среды
+        :returns угол отражения
+        """
         self.__check_angle(angle_incidence)
         _, medium_one = self.__validate_index_name(medium_one)
         _, medium_two = self.__validate_index_name(medium_two)
@@ -47,7 +45,18 @@ class RefractionLightClass:
         return math.degrees(math.asin(result_sin))
 
     def __validate_index_name(self, label):
-        """Валидация имён сред"""
+        """
+        Валидация имён сред
+
+        Parameters
+        ----------
+        :param label: str
+            Название среды
+
+        :returns название среды, коэффициент отражения среды, если такая среда существует
+        :raises ошибка InvalidRefractiveIndex, если в качестве label не строка или число, или если такая среда не
+            существует
+        """
         type_m = type(label)
         if type_m == str:
             value = self.get_refractive_index(label)
@@ -62,7 +71,18 @@ class RefractionLightClass:
         return label, value
 
     def build_graph(self, angle_incidence: float, first_index, second_index):
-        """Метод построения графика"""
+        """
+        Метод построения графика
+
+        Parameters
+        ----------
+        :param angle_incidence: float
+            Угол падения
+        :param first_index: float
+            Коэффициент отражения первой среды
+        :param second_index: float
+            Коэффициент отражения вторйо среды
+        """
         first_label, first_index = self.__validate_index_name(first_index)
         second_label, second_index = self.__validate_index_name(second_index)
         second_angle = self.get_angle_refraction(angle_incidence, first_index, second_index)
@@ -70,7 +90,17 @@ class RefractionLightClass:
         self.graph.build_graph(angle_incidence, first_label, first_index, second_label, second_index, second_angle)
 
     def get_refractive_index(self, media: str) -> float:
-        """Получение показателя преломления среды"""
+        """
+        Получение показателя преломления среды
+
+        Parameters
+        ----------
+        :param media: str
+            Название среды
+
+        :returns Коэффициент отражения среды media
+        :raises ошибка RefractiveIndexNotFound, если среда media не существует
+        """
         index = self.dictionary.get(media.lower(), -1)
         if index != -1:
             return index
@@ -78,13 +108,30 @@ class RefractionLightClass:
             raise errors.RefractiveIndexNotFound(f'Индекс среды "{media}" не найден.')
 
     def set_refractive_indexes(self, file):
-        """Добавление пользовательских показателей преломления среды"""
+        """
+        Добавление пользовательских показателей преломления среды
+
+        Parameters
+        ----------
+        :param file: str
+            Путь к пользовательскому файлу с коэффициентами отражения сред
+        """
         self.dictionary.update(pd.read_csv(file, header=None,
                            dtype={0: str, 1: np.float64}).set_index(0).squeeze().to_dict())
 
     @staticmethod
     def __check_angle(angle):
-        """Проверка валидности угла"""
+        """
+        Проверка валидности угла
+
+        Parameters
+        ----------
+        :param angle: float
+            Величина угла
+
+        :raises ошибка InvalidArgumentForAngle, если в качестве angle передано не число, или если angle выходит за
+            пределы допустимых значений
+        """
         if not isinstance(angle, numbers.Number):
             raise errors.InvalidArgumentForAngle(f'Недопустимый "{angle}" тип для угла')
         if angle <= 0 or angle >= 90:

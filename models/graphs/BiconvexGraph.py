@@ -6,7 +6,22 @@ class BiconvexGraph(LensGraph):
     """Класс для графиков с двояковогнутыми собирающими линзами"""
 
     def build_axis(self, dist_subject, dist_image, focal_length, height_subject, is_real_image):
-        """Построение осей координат"""
+        """
+        Построение осей координат
+
+        Parameters
+        ----------
+        :param dist_subject: float
+            Расстояние от линзы до предмета
+        :param dist_image: float
+            Расстояние от линзы до изображения
+        :param height_subject: float
+            Высота предмета
+        :param focal_length: float
+            Фокальное расстояние линзы
+        :param is_real_image: bool
+            Является изображение реальным или нет
+        """
         x_axes = dist_image if dist_image is not None else focal_length
         if is_real_image:
             plt.plot([(-1) * dist_subject - 5, x_axes + 5], [0, 0], self._axes_color)
@@ -23,7 +38,24 @@ class BiconvexGraph(LensGraph):
         self.build_focus(focal_length)
 
     def build_rays(self, dist_subject, dist_image, focal_length, height_subject, height_image, is_real_image):
-        """Построение лучей"""
+        """
+        Построение лучей
+
+        Parameters
+        ----------
+        :param dist_subject: float
+            Расстояние от линзы до предмета
+        :param dist_image: float
+            Расстояние от линзы до изображения
+        :param height_subject: float
+            Высота предмета
+        :param height_image: float
+            Высота изображения
+        :param focal_length: float
+            Фокальное расстояние линзы
+        :param is_real_image: bool
+            Является изображение реальным или нет
+        """
         x1 = 0
         x2 = focal_length
         y1 = height_subject

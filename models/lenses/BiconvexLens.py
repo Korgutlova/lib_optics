@@ -44,13 +44,11 @@ class BiconvexLens(AbstractLens, LensInterface):
             self._dist_image = self.get__dist_image()
         else:
             print("Заполните два из параметра f, d, F")
-            return
 
         self._real_image = not self._dist_subject < self._focal_length
 
         if self._height_subject is None:
             print("Введите высоту предмета")
-            return
 
         if self._dist_image is not None:
             self._height_image = self.graph.calculate_coordinate(0, (-1) * self._dist_subject, 0, self._height_subject,
@@ -58,5 +56,5 @@ class BiconvexLens(AbstractLens, LensInterface):
         else:
             self._height_image = 0
 
-        self.graph.build_graph(self._dist_image, self._dist_subject, self._focal_length, self._height_subject,
-                               self._height_image, self._real_image)
+        self.graph.build_graph(self._dist_subject, self._dist_image, self._height_subject, self._height_image,
+                               self._focal_length, self._real_image)

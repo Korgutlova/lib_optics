@@ -43,7 +43,7 @@ class AbstractLens(ABC):
     @property
     def real_subject(self):
         """
-        real_subject: boolean
+        real_subject: bool
             Является предмет реальным или нет
         """
         return self._real_subject
@@ -55,7 +55,7 @@ class AbstractLens(ABC):
 
         Parameters
         ----------
-        :param value: boolean
+        :param value: bool
             Является предмет реальным или нет
 
         """
@@ -67,7 +67,7 @@ class AbstractLens(ABC):
         """
         Реально ли изображение
 
-        real_image: boolean
+        real_image: bool
             Является изображение реальным или нет
         """
         return self._real_image
@@ -80,7 +80,7 @@ class AbstractLens(ABC):
         Parameters
         ----------
 
-        :param value: boolean
+        :param value: bool
             Является изображение реальным или нет
         """
         self._check_input_bool(value, "real_image")
@@ -89,7 +89,7 @@ class AbstractLens(ABC):
     @property
     def dist_subject(self):
         """
-        dist_image: int
+        dist_image: float
             Расстояние от линзы до предмета
         """
         return self._dist_subject
@@ -101,7 +101,7 @@ class AbstractLens(ABC):
 
         Parameters
         ----------
-        :param value: int
+        :param value: float
             Расстояние от линзы до предмета
         """
         self._check_input_numbers(value, "dist_subject")
@@ -110,7 +110,7 @@ class AbstractLens(ABC):
     @property
     def dist_image(self):
         """
-        dist_image: int
+        dist_image: float
             Расстояние от линзы до изображения
         """
         return self._dist_image
@@ -122,7 +122,7 @@ class AbstractLens(ABC):
 
         Parameters
         ----------
-        :param value: int
+        :param value: float
             Расстояние от линзы до изображения
         """
         self._check_input_numbers(value, "dist_image")
@@ -131,7 +131,7 @@ class AbstractLens(ABC):
     @property
     def focal_length(self):
         """
-        focal_length: int
+        focal_length: float
             Фокальное расстояние линзы
         """
         return self._focal_length
@@ -144,7 +144,7 @@ class AbstractLens(ABC):
         Parameters
         ----------
 
-        :param value: int
+        :param value: float
             Фокальное расстояние линзы
         """
         self._check_input_numbers(value, "focal_length")
@@ -153,7 +153,7 @@ class AbstractLens(ABC):
     @property
     def height_subject(self):
         """
-        height_subject: int
+        height_subject: float
             Высота предмета
         """
         return self._height_subject
@@ -166,7 +166,7 @@ class AbstractLens(ABC):
         Parameters
         ----------
 
-        :param value: int
+        :param value: float
             Высота предмета
         """
         self._check_input_numbers(value, "height_subject")
@@ -175,7 +175,7 @@ class AbstractLens(ABC):
     @property
     def height_image(self):
         """
-        height_image: int
+        height_image: float
             Высота изображения
         """
         return self._height_image
@@ -188,7 +188,7 @@ class AbstractLens(ABC):
         Parameters
         ----------
 
-        :param value: int
+        :param value: float
             Высота изображения
         """
         self._check_input_numbers(value, "height_image")
@@ -201,13 +201,13 @@ class AbstractLens(ABC):
         Parameters
         ----------
 
-        :param value: int
+        :param value: float
             Значение числового аргумента
         :param name: str
             Строковое имя числового аргумента
 
-        Выбрасывает ошибку InvalidArgumentForLens, если в качестве value передано не числовое значение
-        Выбрасывает ошибку InvalidArgumentForLens, если value выходит за пределы допустимых значений
+        :raises ошибка InvalidArgumentForLens, если в качестве value передано не числовое значение или если value
+            выходит за пределы допустимых значений
         """
         if value is not None and not isinstance(value, numbers.Number):
             raise errors.InvalidArgumentForLens(self._pattern_invalid_argument % (value, name, "Number"))
@@ -227,7 +227,7 @@ class AbstractLens(ABC):
         :param name: str
             Строковое имя логического аргумента
 
-        Выбрасывает ошибку InvalidArgumentForLens, если в качестве value передано не логическое значение
+        :raises ошибка InvalidArgumentForLens, если в качестве value передано не логическое значение
         """
         if value is not None and not isinstance(value, bool):
             raise errors.InvalidArgumentForLens(self._pattern_invalid_argument % (value, name, "bool"))
@@ -239,7 +239,7 @@ class AbstractLens(ABC):
         Parameters
         ----------
 
-        :param param: int
+        :param param: float
             Значение числового параметра
 
         :returns True, если param находится в пределах допустимых значений, иначе False
@@ -336,7 +336,7 @@ class LensInterface(ABC):
         Parameters
         ----------
 
-        value: int
+        value: float
             Значение числового аргумента
         name: str
             Строковое имя числового аргумента
@@ -364,7 +364,7 @@ class LensInterface(ABC):
         Parameters
         ----------
 
-        param: int
+        param: float
             Значение числового параметра
 
         :returns True, если param находится в пределах допустимых значений, иначе False
