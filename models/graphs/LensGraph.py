@@ -29,6 +29,8 @@ class LensGraph(AbstractGraph):
         self._image_dash = self._dash + "g"
         self._image_label = "Изображение"
 
+        self._unit = "см"
+
     def build_graph(self, dist_subject, dist_image, height_subject, height_image, focal_length, is_real_image):
         """
         Метод, вызывающийся для построения графика с линзами
@@ -52,6 +54,8 @@ class LensGraph(AbstractGraph):
         self.build_subject(dist_subject, height_subject)
         self.build_rays(dist_subject, dist_image, focal_length, height_subject, height_image, is_real_image)
         plt.legend(loc='lower right', shadow=True, fontsize='x-large')
+        plt.xlabel("X, %s" % self._unit)
+        plt.ylabel("Y, %s" % self._unit)
         plt.show()
 
     def build_subject(self, dist_subject, height_subject):
@@ -388,3 +392,23 @@ class LensGraph(AbstractGraph):
         """
         self._check_input_label(value)
         self._image_label = value
+
+    @property
+    def unit(self):
+        """
+        unit: str
+            Единица измерения, отображаемая на графике
+        """
+        return self._unit
+
+    @unit.setter
+    def unit(self, value):
+        """
+        Добавление единицы измерения
+
+        Parameters
+        ----------
+        :param value: str
+            Единица измерения
+        """
+        self._unit = value
