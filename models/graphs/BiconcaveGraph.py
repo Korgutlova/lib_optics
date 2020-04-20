@@ -15,13 +15,6 @@ class BiconcaveGraph(LensGraph):
         plt.axis('equal')
         self.build_focus(focal_length)
 
-    def build_subject(self, dist_subject, height_subject):
-        if height_subject != 0:
-            self.build_arrow((-1) * dist_subject, (-1) * dist_subject, 0, height_subject,
-                             label="Объект")
-        else:
-            plt.plot([(-1) * dist_subject, (-1) * dist_subject], [0, 0], "go", label="Объект")  # Object
-
     def build_rays(self, dist_subject, dist_image, focal_length, height_subject, height_image, is_real_image):
         x1 = 0
         y1 = height_subject
@@ -33,15 +26,16 @@ class BiconcaveGraph(LensGraph):
                                                 height_image,
                                                 3)], self._rays_color)
 
-            plt.plot([(-1) * focal_length, 0], [0, height_subject], "--b")
+            plt.plot([(-1) * focal_length, 0], [0, height_subject], self._rays_dash)
 
-            plt.plot([(-1) * focal_length, (-1) * focal_length], [(-1) * height_subject - 1, height_subject + 1], "--r")
+            plt.plot([(-1) * focal_length, (-1) * focal_length], [(-1) * height_subject - 1, height_subject + 1],
+                     self._focus_dash)
 
             plt.plot([(-1) * dist_subject, 0, 3],  # line_focus
                      [height_subject, 0,
                       self.calculate_coordinate(0, (-1) * dist_subject, 0, height_subject, 3)], self._rays_color)
 
-            self.build_arrow((-1) * dist_image, (-1) * dist_image, 0, y2, "--g")  # line_image
+            self.build_arrow((-1) * dist_image, (-1) * dist_image, 0, y2, self._subject_dash, self._image_label)
             plt.xlim((-1) * dist_subject + dist_image - 5, focal_length + 5)
         else:
             random_height = 5
@@ -50,18 +44,16 @@ class BiconcaveGraph(LensGraph):
                       self.calculate_coordinate((-1) * dist_image, 0, 0, random_height, 3)], self._rays_color)
 
             plt.plot([0, (-1) * focal_length, 0],
-                     [random_height,
-                      self.calculate_coordinate(0, (-1) * dist_image, random_height, 0,
-                                                (-1) * focal_length),
-                      0], "--b")
+                     [random_height, self.calculate_coordinate(0, (-1) * dist_image, random_height, 0,
+                                                               (-1) * focal_length), 0], self._rays_dash)
 
             plt.plot([(-1) * focal_length, (-1) * focal_length],
-                     [(-1) * height_subject - 5, height_subject + 5], "--r")
+                     [(-1) * height_subject - 5, height_subject + 5], self._focus_dash)
 
             plt.plot([(-1) * dist_subject, 0, 3],  # line_focus
                      [height_subject, 0,
                       self.calculate_coordinate(0, (-1) * dist_subject, 0, height_subject, 3)],
                      self._rays_color)
 
-            plt.plot([(-1) * dist_image, (-1) * dist_image], [0, 0], "mo", label="Изображение")
+            plt.plot([(-1) * dist_image, (-1) * dist_image], [0, 0], self._image_point, self._image_label)
             plt.xlim((-1) * dist_subject + dist_image - 5, focal_length + 5)

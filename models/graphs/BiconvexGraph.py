@@ -20,12 +20,6 @@ class BiconvexGraph(LensGraph):
         plt.axis('equal')
         self.build_focus(focal_length)
 
-    def build_subject(self, dist_subject, height_subject):
-        if height_subject != 0:
-            self.build_arrow((-1) * dist_subject, (-1) * dist_subject, 0, height_subject, label="Объект")
-        else:
-            plt.plot([(-1) * dist_subject, (-1) * dist_subject], [0, 0], "go", label="Объект")  # Object
-
     def build_rays(self, dist_subject, dist_image, focal_length, height_subject, height_image, is_real_image):
         x1 = 0
         x2 = focal_length
@@ -41,24 +35,20 @@ class BiconvexGraph(LensGraph):
                          [height_subject, self.calculate_coordinate(0, x2, 0, -height_subject, x=1.5 * x2)],
                          self._rays_color)
             else:
-                plt.plot([(-1) * dist_subject, x1, dist_image],  # parallel_x
-                         [height_subject, y1, (-1) * y3], self._rays_color)
+                plt.plot([(-1) * dist_subject, x1, dist_image], [height_subject, y1, (-1) * y3], self._rays_color)
 
                 plt.plot([(-1) * dist_subject, 0, dist_image],  # line_focus
                          [height_subject, (-1) * y3, (-1) * y3], self._rays_color)
-                self.build_arrow(dist_image, dist_image, 0, (-1) * y3, "--g")  # line_image
+                self.build_arrow(dist_image, dist_image, 0, (-1) * y3, self._subject_dash, self._image_label)
         else:
-            plt.plot([(-1) * dist_subject, x1, x2],  # parallel_x
-                     [height_subject, y1, y2], self._rays_color)
-            plt.plot([x1, dist_image],  # parallel_x_image
-                     [y1, y3], "--b")
+            plt.plot([(-1) * dist_subject, x1, x2], [height_subject, y1, y2], self._rays_color)
+            plt.plot([x1, dist_image], [y1, y3], self._rays_dash)
 
-            plt.plot([0, (-1) * dist_subject],  # line_focus
-                     [0, height_subject], self._rays_color)
+            plt.plot([0, (-1) * dist_subject], [0, height_subject], self._rays_color)
 
-            plt.plot([(-1) * dist_subject, dist_image],  # line_focus_image
-                     [height_subject, y3], "--b")
-            self.build_arrow(dist_image, dist_image, 0, y3, "--g")  # line_image
+            plt.plot([(-1) * dist_subject, dist_image], [height_subject, y3], self._rays_dash)
+
+            self.build_arrow(dist_image, dist_image, 0, y3, self._subject_dash, self._image_label)
 
         if dist_image is None:
             plt.xlim((-1) * focal_length - 5, focal_length + 5)
