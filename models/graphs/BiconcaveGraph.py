@@ -35,7 +35,7 @@ class BiconcaveGraph(LensGraph):
                      [height_subject, 0,
                       self.calculate_coordinate(0, (-1) * dist_subject, 0, height_subject, 3)], self._rays_color)
 
-            self.build_arrow((-1) * dist_image, (-1) * dist_image, 0, y2, self._subject_dash, self._image_label)
+            self.build_arrow((-1) * dist_image, (-1) * dist_image, 0, y2, self._image_dash, self._image_label)
             plt.xlim((-1) * dist_subject + dist_image - 5, focal_length + 5)
         else:
             random_height = 5
@@ -55,5 +55,5 @@ class BiconcaveGraph(LensGraph):
                       self.calculate_coordinate(0, (-1) * dist_subject, 0, height_subject, 3)],
                      self._rays_color)
 
-            plt.plot([(-1) * dist_image, (-1) * dist_image], [0, 0], self._image_point, self._image_label)
+            plt.plot([(-1) * dist_image, (-1) * dist_image], [0, 0], self._image_point, label=self._image_label)
             plt.xlim((-1) * dist_subject + dist_image - 5, focal_length + 5)
