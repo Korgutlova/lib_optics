@@ -53,7 +53,7 @@ class BiconvexLens(AbstractLens, LensInterface):
 
         if self._dist_image is not None:
             self._height_image = self.graph.calculate_coordinate(0, (-1) * self._dist_subject, 0, self._height_subject,
-                                                                 (-1) * self._dist_image)
+                                                                 -self._dist_image if self._real_image else self._dist_image)
         else:
             self._height_image = 0
 
