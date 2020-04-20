@@ -38,7 +38,7 @@ class LensGraph(AbstractGraph):
         Parameters
         ----------
         :param dist_subject: float
-            Расстояние от линзы до предмета
+            Расстояние от линзы до объекта
         :param dist_image: float
             Расстояние от линзы до изображения
         :param height_subject: float
@@ -60,14 +60,14 @@ class LensGraph(AbstractGraph):
 
     def build_subject(self, dist_subject, height_subject):
         """
-        Построение предмета
+        Построение объекта
 
         Parameters
         ----------
         :param dist_subject: float
-            Расстояние от линзы до предмета
+            Расстояние от линзы до объекта
         :param height_subject: float
-            Высота предмета
+            Высота объекта
         """
         if height_subject != 0:
             self.build_arrow((-1) * dist_subject, (-1) * dist_subject, 0, height_subject, self._subject_color,
@@ -118,11 +118,11 @@ class LensGraph(AbstractGraph):
         Parameters
         ----------
         :param dist_subject: float
-            Расстояние от линзы до предмета
+            Расстояние от линзы до объекта
         :param dist_image: float
             Расстояние от линзы до изображения
         :param height_subject: float
-            Высота предмета
+            Высота объекта
         :param focal_length: float
             Фокальное расстояние линзы
         :param is_real_image: bool
@@ -137,11 +137,11 @@ class LensGraph(AbstractGraph):
         Parameters
         ----------
         :param dist_subject: float
-            Расстояние от линзы до предмета
+            Расстояние от линзы до объекта
         :param dist_image: float
             Расстояние от линзы до изображения
         :param height_subject: float
-            Высота предмета
+            Высота объекта
         :param height_image: float
             Высота изображения
         :param focal_length: float
@@ -340,12 +340,12 @@ class LensGraph(AbstractGraph):
     @subject_color.setter
     def subject_color(self, value):
         """
-        Добавление цвета предмета
+        Добавление цвета объекта
 
         Parameters
         ----------
         :param value: str
-            Цвет предмета
+            Цвет объекта
         """
         self._check_input_color(value)
         self._subject_color = value
@@ -355,19 +355,19 @@ class LensGraph(AbstractGraph):
     def subject_label(self):
         """
         subject_label: str
-            Метка предмета
+            Метка объекта
         """
         return self._subject_label
 
     @subject_label.setter
     def subject_label(self, value):
         """
-        Добавление метки предмета
+        Добавление метки объекта
 
         Parameters
         ----------
         :param value: str
-            Метка предмета
+            Метка объекта
         """
         self._check_input_label(value)
         self._subject_label = value

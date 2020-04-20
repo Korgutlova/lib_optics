@@ -43,20 +43,22 @@ class AbstractLens(ABC):
     @property
     def real_subject(self):
         """
+        Реален ли объект
+
         real_subject: bool
-            Является предмет реальным или нет
+            Является объект реальным или нет
         """
         return self._real_subject
 
     @real_subject.setter
     def real_subject(self, value):
         """
-        Добавление реальности предмета
+        Добавление реальности объекта
 
         Parameters
         ----------
         :param value: bool
-            Является предмет реальным или нет
+            Является объект реальным или нет
 
         """
         self._check_input_bool(value, "real_subject")
@@ -90,19 +92,19 @@ class AbstractLens(ABC):
     def dist_subject(self):
         """
         dist_image: float
-            Расстояние от линзы до предмета
+            Расстояние от линзы до объекта
         """
         return self._dist_subject
 
     @dist_subject.setter
     def dist_subject(self, value):
         """
-        Добавление расстояния от линзы до предмета
+        Добавление расстояния от линзы до объекта
 
         Parameters
         ----------
         :param value: float
-            Расстояние от линзы до предмета
+            Расстояние от линзы до объекта
         """
         self._check_input_numbers(value, "dist_subject")
         self._dist_subject = value
@@ -161,13 +163,13 @@ class AbstractLens(ABC):
     @height_subject.setter
     def height_subject(self, value):
         """
-        Добавление высоты предмета
+        Добавление высоты объекта
 
         Parameters
         ----------
 
         :param value: float
-            Высота предмета
+            Высота объекта
         """
         self._check_input_numbers(value, "height_subject")
         self._height_subject = value
@@ -253,7 +255,7 @@ class AbstractLens(ABC):
         Проверка, возможно ли вычислить фокальное расстояние линзы
 
         :returns True, если значения, необходимые для вычисления фокального расстояния, а именно расстояние от линзы
-            до предмета и растояние от линзы до изображения не None, иначе False
+            до предмета и растояние от линзы до изображения, не None, иначе False
         """
         return self._dist_subject is not None and self._dist_image is not None
 
@@ -262,7 +264,7 @@ class AbstractLens(ABC):
         Проверка, возможно ли вычислить расстояние от линзы до предмета
 
         :returns True, если значения, необходимые для вычисления расстояния от линзы до предмета, а именно фокальное
-            расстояние линзы и растояние от линзы до изображения не None, иначе False
+            расстояние линзы и растояние от линзы до изображения, не None, иначе False
         """
         return self._focal_length is not None and self._dist_image is not None
 
@@ -271,7 +273,7 @@ class AbstractLens(ABC):
         Проверка, возможно ли вычислить расстояние от линзы до изображения
 
         :returns True, если значения, необходимые для вычисления расстояния от линзы до изображения, а именно
-            фокальное расстояние линзы и растояние от линзы до предмета не None, иначе False
+            фокальное расстояние линзы и растояние от линзы до объекта, не None, иначе False
         """
         return self._focal_length is not None and self._dist_subject is not None
 
@@ -304,9 +306,9 @@ class AbstractLens(ABC):
     @abstractmethod
     def get__dist_subject(self):
         """
-        Метод, вычисляющий расстояние от линзы до предмета
+        Метод, вычисляющий расстояние от линзы до объекта
 
-        :returns расстояние от линзы до предмета
+        :returns расстояние от линзы до объекта
         """
 
     @abstractmethod
@@ -319,7 +321,7 @@ class AbstractLens(ABC):
 
     @abstractmethod
     def display_graphic(self):
-        """Метод, который нужно вызвать для постройки и отображения графика"""
+        """Метод, который нужно вызвать для построения и отображения графика"""
 
 
 class LensInterface(ABC):
@@ -413,4 +415,4 @@ class LensInterface(ABC):
 
     @abstractmethod
     def display_graphic(self):
-        """Метод, который нужно вызвать для постройки и отображения графика"""
+        """Метод, который нужно вызвать для построения и отображения графика"""

@@ -12,11 +12,11 @@ class BiconcaveGraph(LensGraph):
         Parameters
         ----------
         :param dist_subject: float
-            Расстояние от линзы до предмета
+            Расстояние от линзы до объекта
         :param dist_image: float
             Расстояние от линзы до изображения
         :param height_subject: float
-            Высота предмета
+            Высота объекта
         :param focal_length: float
             Фокальное расстояние линзы
         :param is_real_image: bool
@@ -34,16 +34,16 @@ class BiconcaveGraph(LensGraph):
 
     def build_rays(self, dist_subject, dist_image, focal_length, height_subject, height_image, is_real_image):
         """
-        Построение лучей
+        Построение лучей и изображений
 
         Parameters
         ----------
         :param dist_subject: float
-            Расстояние от линзы до предмета
+            Расстояние от линзы до объекта
         :param dist_image: float
             Расстояние от линзы до изображения
         :param height_subject: float
-            Высота предмета
+            Высота объекта
         :param height_image: float
             Высота изображения
         :param focal_length: float

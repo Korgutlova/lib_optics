@@ -187,7 +187,7 @@ class RefractionGraph(AbstractGraph):
 
     def build_graph(self, angle_incidence: float, first_label, first_index, second_label, second_index, second_angle):
         """
-        Метод, вызывающийся для построения графика
+        Построение графика преломления
 
         Parameters
         ----------
@@ -196,11 +196,11 @@ class RefractionGraph(AbstractGraph):
         :param first_label: str
             Название первой среды
         :param first_index: float
-            Коэффициент отражения первой среды
+            Коэффициент преломления первой среды
         :param second_label: str
             Название второй среды
         :param second_index: float
-            Коэффициент отражения второй среды
+            Коэффициент преломления второй среды
         :param second_angle: float
             Второй угол
         """
@@ -232,13 +232,13 @@ class RefractionGraph(AbstractGraph):
         Parameters
         ----------
         :param x_min: float
-            Нижняя граница по x
+            Нижняя граница по X
         :param x_max: float
-            Верхняя граница по x
+            Верхняя граница по X
         :param y_min: float
-            Нижняя граница по y
+            Нижняя граница по Y
         :param y_max: float
-            Верхняя граница по y
+            Верхняя граница по Y
         :param color: str
             Цвет
         """
