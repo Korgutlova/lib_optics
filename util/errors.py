@@ -21,3 +21,13 @@ class InvalidArgumentForAngle(ValueError):
 class InvalidArgumentStyleGraphic(ValueError):
     def __init__(self, message):
         super(InvalidArgumentStyleGraphic, self).__init__(message)
+
+
+class NotEnoughKnownValuesForLensGraphic(AttributeError):
+    def __init__(self, message):
+        super(NotEnoughKnownValuesForLensGraphic, self).__init__(message)
+
+
+class MissingObjectHeight(AttributeError):
+    def __init__(self, message):
+        super(MissingObjectHeight, self).__init__(message)

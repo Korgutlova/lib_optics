@@ -1,5 +1,6 @@
 from models.graphs.BiconvexGraph import BiconvexGraph
 from models.lenses.AbstractLens import AbstractLens, LensInterface
+from util import errors
 
 
 class BiconvexLens(AbstractLens, LensInterface):
@@ -35,7 +36,7 @@ class BiconvexLens(AbstractLens, LensInterface):
             return None
 
     def display_graphic(self):
-        """Метод, который нужно вызвать для постройки и отображения графика"""
+        """Метод для построения и отображения графика"""
         if self.check_not_none_for_d():
             self._dist_subject = self.get__dist_subject()
         elif self.check_not_none_for_F():
@@ -43,12 +44,12 @@ class BiconvexLens(AbstractLens, LensInterface):
         elif self.check_not_none_for_f():
             self._dist_image = self.get__dist_image()
         else:
-            print("Заполните два из параметра f, d, F")
+            raise errors.NotEnoughKnownValuesForLensGraphic("Недостаточно известных параметров. Заполните два из параметров: f, d, F")
 
         self._real_image = not self._dist_subject < self._focal_length
 
         if self._height_subject is None:
-            print("Введите высоту предмета")
+            raise errors.MissingObjectHeight("Необходимо ввести высоту объекта.")
 
         if self._dist_image is not None:
             self._height_image = self.graph.calculate_coordinate(0, (-1) * self._dist_subject, 0, self._height_subject,

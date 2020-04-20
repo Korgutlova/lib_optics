@@ -24,16 +24,16 @@ class RefractionLightClass:
 
     def get_angle_refraction(self, angle_incidence: float, medium_one, medium_two) -> float:
         """
-        Расчёт угла отражения
+        Расчёт угла преломления
 
         Parameters
         ----------
         :param angle_incidence: float
             Угол падения
         :param medium_one: float
-            Коэффициент отражения первой среды
+            Коэффициент преломления первой среды
         :param medium_two: float
-            Коэффициент отражения второй среды
+            Коэффициент преломления второй среды
         :returns угол отражения
         """
         self.__check_angle(angle_incidence)
@@ -53,8 +53,8 @@ class RefractionLightClass:
         :param label: str
             Название среды
 
-        :returns название среды, коэффициент отражения среды, если такая среда существует
-        :raises ошибка InvalidRefractiveIndex, если в качестве label не строка или число, или если такая среда не
+        :returns название среды, коэффициент преломления среды, если такая среда существует
+        :raises ошибка InvalidRefractiveIndex, если в качестве label не строка или число или если такая среда не
             существует
         """
         type_m = type(label)
@@ -72,16 +72,16 @@ class RefractionLightClass:
 
     def build_graph(self, angle_incidence: float, first_index, second_index):
         """
-        Метод построения графика
+        Построение графика
 
         Parameters
         ----------
         :param angle_incidence: float
             Угол падения
         :param first_index: float
-            Коэффициент отражения первой среды
+            Коэффициент преломления первой среды
         :param second_index: float
-            Коэффициент отражения вторйо среды
+            Коэффициент преломления второй среды
         """
         first_label, first_index = self.__validate_index_name(first_index)
         second_label, second_index = self.__validate_index_name(second_index)
@@ -98,7 +98,7 @@ class RefractionLightClass:
         :param media: str
             Название среды
 
-        :returns Коэффициент отражения среды media
+        :returns Коэффициент преломления среды media
         :raises ошибка RefractiveIndexNotFound, если среда media не существует
         """
         index = self.dictionary.get(media.lower(), -1)
@@ -114,7 +114,7 @@ class RefractionLightClass:
         Parameters
         ----------
         :param file: str
-            Путь к пользовательскому файлу с коэффициентами отражения сред
+            Путь к пользовательскому файлу с коэффициентами преломления сред
         """
         self.dictionary.update(pd.read_csv(file, header=None,
                            dtype={0: str, 1: np.float64}).set_index(0).squeeze().to_dict())
@@ -129,7 +129,7 @@ class RefractionLightClass:
         :param angle: float
             Величина угла
 
-        :raises ошибка InvalidArgumentForAngle, если в качестве angle передано не число, или если angle выходит за
+        :raises ошибка InvalidArgumentForAngle, если в качестве angle передано не число или если angle выходит за
             пределы допустимых значений
         """
         if not isinstance(angle, numbers.Number):
