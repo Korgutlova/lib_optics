@@ -134,20 +134,20 @@ class AbstractLens(ABC):
     def focal_length(self):
         """
         focal_length: float
-            Фокальное расстояние линзы
+            фокусное расстояние линзы
         """
         return self._focal_length
 
     @focal_length.setter
     def focal_length(self, value):
         """
-        Добавление фокального расстояния линзы
+        Добавление фокусного расстояния линзы
 
         Parameters
         ----------
 
         :param value: float
-            Фокальное расстояние линзы
+            фокусное расстояние линзы
         """
         self._check_input_numbers(value, "focal_length")
         self._focal_length = value
@@ -252,9 +252,9 @@ class AbstractLens(ABC):
 
     def check_not_none_for_F(self):
         """
-        Проверка, возможно ли вычислить фокальное расстояние линзы
+        Проверка, возможно ли вычислить фокусное расстояние линзы
 
-        :returns True, если значения, необходимые для вычисления фокального расстояния, а именно расстояние от линзы
+        :returns True, если значения, необходимые для вычисления фокускного расстояния, а именно расстояние от линзы
             до предмета и растояние от линзы до изображения, не None, иначе False
         """
         return self._dist_subject is not None and self._dist_image is not None
@@ -263,7 +263,7 @@ class AbstractLens(ABC):
         """
         Проверка, возможно ли вычислить расстояние от линзы до предмета
 
-        :returns True, если значения, необходимые для вычисления расстояния от линзы до предмета, а именно фокальное
+        :returns True, если значения, необходимые для вычисления расстояния от линзы до предмета, а именно фокусное
             расстояние линзы и растояние от линзы до изображения, не None, иначе False
         """
         return self._focal_length is not None and self._dist_image is not None
@@ -273,7 +273,7 @@ class AbstractLens(ABC):
         Проверка, возможно ли вычислить расстояние от линзы до изображения
 
         :returns True, если значения, необходимые для вычисления расстояния от линзы до изображения, а именно
-            фокальное расстояние линзы и растояние от линзы до объекта, не None, иначе False
+            фокусное расстояние линзы и растояние от линзы до объекта, не None, иначе False
         """
         return self._focal_length is not None and self._dist_subject is not None
 
@@ -281,7 +281,7 @@ class AbstractLens(ABC):
         """
         Метод, вычисляющий оптическую силу линзы
 
-        :returns оптическую силу линзы, если фокальнаое расстояние не None, иначе None
+        :returns оптическую силу линзы, если фокусное расстояние не None, иначе None
         """
         return 1 / self._focal_length if self._focal_length is not None else None
 
@@ -298,9 +298,9 @@ class AbstractLens(ABC):
     @abstractmethod
     def get__focal_length(self):
         """
-        Метод, вычисляющий фокальное расстояние линзы
+        Метод, вычисляющий фокусное расстояние линзы
 
-        :returns фокальное расстояние линзы
+        :returns фокусное расстояние линзы
         """
 
     @abstractmethod
@@ -377,7 +377,7 @@ class LensInterface(ABC):
         """
         Метод, вычисляющий оптическую силу линзы
 
-        :returns оптическую силу линзы, если фокальнаое расстояние не None, иначе None
+        :returns оптическую силу линзы, если фокусное расстояние не None, иначе None
         """
 
     @abstractmethod
@@ -392,9 +392,9 @@ class LensInterface(ABC):
     @abstractmethod
     def get__focal_length(self):
         """
-        Метод, вычисляющий фокальное расстояние линзы
+        Метод, вычисляющий фокусное расстояние линзы
 
-        :returns фокальное расстояние линзы
+        :returns фокусное расстояние линзы
         """
 
     @abstractmethod
