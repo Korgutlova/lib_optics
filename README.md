@@ -25,7 +25,7 @@ print(r.get_angle_refraction(angle, medium_one, medium_two))
 Другие доступные среды и их коэффициенты указаны в файле: https://github.com/Korgutlova/lib_optics/blob/master/files/list_of_refractive_indices.csv
 
 ### 2 Построение хода лучей на графике
-<p>Случай, когда луч преломляется</p>
+<p>Случай преломления луча</p>
 
 ```python
 r = RefractionLightClass()
@@ -37,8 +37,8 @@ r.build_graph(angle, medium_one, medium_two)
 <p align="center">
   <img width="400" height="300" src="https://i.ibb.co/Vw71j4z/refraction.png">
 </p>
-
-<p>Случай, когда луч отражается</p>
+<hr>
+<p>Случай отражения луча</p>
 
 ```python
 r = RefractionLightClass()
