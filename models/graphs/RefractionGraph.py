@@ -203,7 +203,7 @@ class RefractionGraph(AbstractGraph):
         :param value: str
             label первой среды
         """
-        self._first_medium = self._get_color(value)
+        self._first_medium = value
 
     @property
     def second_medium(self):
@@ -223,7 +223,7 @@ class RefractionGraph(AbstractGraph):
         :param value: str
             label второй среды
         """
-        self._second_medium = self._get_color(value)
+        self._second_medium = value
 
     def build_graph(self, angle_incidence: float, first_label, first_index, second_label, second_index, second_angle):
         """

@@ -64,42 +64,66 @@ r.build_graph(35, 1.5, 2)
   <img width="400" height="300" src="https://i.ibb.co/RStVmPK/refraction-style.png">
 </p>
 
-## Построение графиков
+## Построение изображений в тонких линзах
 
 ### 1 Действительный объект находится дальше фокусного расстояния собирательной линзы
 ```python
 x = BiconvexLens(dist_subject=15, focal_length=8, height_subject=5)
 x.display_graphic()
 ```
-![alt картинка](https://i.ibb.co/pxL1PKH/image.png)
+<p align="center">
+  <img width="400" height="300" src="https://i.ibb.co/wYv3drt/1-case.png">
+</p>
 
 ### 2 Действительный объект находится внутри фокусного расстояния собирательной линзы
 ```python
 x = BiconvexLens(dist_subject=4, focal_length=5, height_subject=5)
 x.display_graphic()
 ```
-![alt картинка](https://i.ibb.co/CBVzX0v/image.png)
+<p align="center">
+  <img width="400" height="300" src="https://i.ibb.co/JB0d3NP/2-case.png">
+</p>
 
 ### 3 Действительный объект находится на фокусном расстоянии от собирательной линзы 
 ```python
 x = BiconvexLens(dist_subject=10, focal_length=10, height_subject=5)
 x.display_graphic()
 ```
+<p align="center">
+  <img width="400" height="300" src="https://i.ibb.co/rtLkVWF/3-case.png">
+</p>
 
 ### 4 Действительный объект находится дальше фокусного расстояния рассеивающей линзы
 ```python
 lens = BiconcaveLens(dist_subject=8, focal_length=5, height_subject=3)
 print(lens.get__dist_image())
+# 3.076923076923077
 lens.display_graphic()
 ```
-![alt картинка](https://i.ibb.co/fCqjSG7/image.png)
+<p align="center">
+  <img width="400" height="300" src="https://i.ibb.co/Km3wKDs/4-case.png">
+</p>
   
 ### 5 Точка находится дальше фокусного расстояния рассеивающей линзы
 ```python
 lens = BiconcaveLens(dist_subject=10, focal_length=5, height_subject=0)
-print(lens.get__dist_image())
 lens.display_graphic()
 ```
-![alt картинка](https://i.ibb.co/qNBcp9V/image.png)
+<p align="center">
+  <img width="400" height="300" src="https://i.ibb.co/fYpm4n4/5-case.png">
+</p>
 
 ### 6 Настройка стиля для отображения линзы и лучей
+```python
+x = BiconvexLens(dist_subject=7, focal_length=10, height_subject=5)
+# указание цвета "blue" для отметки фокусного расстояния
+x.graph.focus_color = "blue"
+# указание цвета "magenta" сокращенно "m" для объекта
+x.graph.subject_color = "m"
+# указание цвета "red" для изображения объекта
+x.graph.image_color = "red"
+x.display_graphic()
+```
+<p align="center">
+  <img width="400" height="300" src="https://i.ibb.co/hd22v2K/6-case.png">
+</p>
