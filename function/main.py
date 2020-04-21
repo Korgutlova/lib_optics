@@ -3,6 +3,13 @@ from models.lenses.BiconcaveLens import BiconcaveLens
 from models.lenses.BiconvexLens import BiconvexLens
 
 if __name__ == "__main__":
+    # Настройка стиля
+    r = RefractionLightClass()
+    r.graph.first_ray_color = "black"
+    r.graph.second_medium_color = "pink"
+    r.graph.second_ray_color = "teal"
+    r.build_graph(35, 1.5, 2)
+
     # преломление света
     r = RefractionLightClass()
     medium_one = "water"
@@ -13,7 +20,7 @@ if __name__ == "__main__":
 
     # отражение света
     r = RefractionLightClass()
-    r.build_graph(28.1, 'water', 'air')
+    r.build_graph(50, 2, 1)
 
     # точка и рассеивающая линза
     x = BiconcaveLens(dist_subject=10, focal_length=5, height_subject=0)

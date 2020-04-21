@@ -146,15 +146,15 @@ class RefractionGraph(AbstractGraph):
         self._second_ray_color = self._get_color(value)
 
     @property
-    def first_medium(self):
+    def first_medium_color(self):
         """
-        first_medium: str
+        first_medium_color: str
             Цвет первой среды
         """
-        return self._first_medium
+        return self._first_medium_color
 
-    @first_medium.setter
-    def first_medium(self, value):
+    @first_medium_color.setter
+    def first_medium_color(self, value):
         """
         Добавление цвета первой среды
 
@@ -163,18 +163,18 @@ class RefractionGraph(AbstractGraph):
         :param value: str
             Цвет первой среды
         """
-        self._first_medium = self._get_color(value)
+        self._first_medium_color = self._get_color(value)
 
     @property
-    def second_medium(self):
+    def second_medium_color(self):
         """
-        second_medium: str
+        second_medium_color: str
             Цвет второй среды
         """
-        return self._second_medium
+        return self._second_medium_color
 
-    @second_medium.setter
-    def second_medium(self, value):
+    @second_medium_color.setter
+    def second_medium_color(self, value):
         """
         Добавление цвета второй среды
 
@@ -182,6 +182,46 @@ class RefractionGraph(AbstractGraph):
         ----------
         :param value: str
             Цвет второй среды
+        """
+        self._second_medium_color = self._get_color(value)
+
+    @property
+    def first_medium(self):
+        """
+        first_medium: str
+            label первой среды
+        """
+        return self._first_medium
+
+    @first_medium.setter
+    def first_medium(self, value):
+        """
+        Добавление label первой среды
+
+        Parameters
+        ----------
+        :param value: str
+            label первой среды
+        """
+        self._first_medium = self._get_color(value)
+
+    @property
+    def second_medium(self):
+        """
+        second_medium: str
+            label второй среды
+        """
+        return self._second_medium
+
+    @second_medium.setter
+    def second_medium(self, value):
+        """
+        Добавление label второй среды
+
+        Parameters
+        ----------
+        :param value: str
+            label второй среды
         """
         self._second_medium = self._get_color(value)
 

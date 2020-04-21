@@ -3,23 +3,66 @@
 ##Преломление света
 
 ### 1 Нахождение угла преломления
+<p>Углы указываются в граудсах</p>
+<p>Информация о первой и второй среде указывается:</p>
+
+* как строковое имя среды 
+* либо числовый коэффициент преломления среды
+
 ```python
 r = RefractionLightClass()
 medium_one = "water"
 medium_two = "air"
 angle = 40 
 print(r.get_angle_refraction(angle, medium_one, medium_two))
+
+# 58.935271735411426
 ```
 ### 2 Построение хода лучей на графике
+<p>Случай, когда луч преломляется</p>
+
 ```python
+r = RefractionLightClass()
+medium_one = "water"
+medium_two = "air"
+angle = 40 
 r.build_graph(angle, medium_one, medium_two)
 ```
-![alt картинка](https://i.ibb.co/0Mj3ZQS/image.png)
+<p align="center">
+  <img width="400" height="300" src="https://i.ibb.co/PZBnNYg/refraction.png">
+</p>
+
+<p>Случай, когда луч отражается</p>
+
+```python
+r = RefractionLightClass()
+r.build_graph(50, 2, 1)
+```
+<p align="center">
+  <img width="400" height="300" src="https://i.ibb.co/vYRwPpM/reflection.png">
+</p>
+
 ### 3 Загрузка пользовательского файла с коэффициентами преломления сред
 ```python
-r.set_refractive_indexes("my_files.csv")
+r.set_refractive_indexes("my_file.csv")
 ```
 ### 4 Настройка стиля для графика преломления
+<p>График можно настраивать указывая различные цвет для дуг, лучей, фона</p>
+
+```python
+r = RefractionLightClass()
+# указание цвета "black" для падающего луча
+r.graph.first_ray_color = "black"
+# указание цвета "pink" для заливки второй среды
+r.graph.second_medium_color = "pink"
+# указание цвета "teal" для преломляющегося луча
+r.graph.second_ray_color = "teal"
+r.build_graph(35, 1.5, 2)
+```
+
+<p align="center">
+  <img width="400" height="300" src="https://i.ibb.co/RStVmPK/refraction-style.png">
+</p>
 
 ##Построение графиков
 
