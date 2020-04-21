@@ -85,7 +85,7 @@ class RefractionLightClass:
         """
         first_label, first_index = self.__validate_index_name(first_index)
         second_label, second_index = self.__validate_index_name(second_index)
-        second_angle = self.get_angle_refraction(angle_incidence, first_index, second_index)
+        second_angle = round(self.get_angle_refraction(angle_incidence, first_index, second_index))
 
         self.graph.build_graph(angle_incidence, first_label, first_index, second_label, second_index, second_angle)
 
