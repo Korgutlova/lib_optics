@@ -35,7 +35,7 @@ angle = 40
 r.build_graph(angle, medium_one, medium_two)
 ```
 <p align="center">
-  <img width="400" height="300" src="https://i.ibb.co/PZBnNYg/refraction.png">
+  <img width="400" height="300" src="https://i.ibb.co/Vw71j4z/refraction.png">
 </p>
 
 <p>Случай, когда луч отражается</p>
